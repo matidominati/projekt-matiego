@@ -2,6 +2,9 @@ package com.dermont;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Address address1 = new Address("Bukowinska", "3", "13", "00-000", "Warszawa");
+        Person person1 = new Person("Andrzej", "Kibala", "60100204181", "10.05.1960", address1);
+
+        person1.PrintPersonInfo(person1, address1);
     }
 }
