@@ -1,4 +1,6 @@
-package com.dermont;
+package com.dermont.ResidentialInfo;
+
+import com.dermont.PersonInfo.Rental;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +12,7 @@ public class ParkingSpace extends Flat {
         super(usableArea, rental);
         this.storedItems = storedItems;
     }
+
 
     public List<Object> getStoredItems() {
         return storedItems;

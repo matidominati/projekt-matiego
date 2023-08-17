@@ -1,4 +1,4 @@
-package com.dermont;
+package com.dermont.PersonInfo;
 
 public class Address {
 
