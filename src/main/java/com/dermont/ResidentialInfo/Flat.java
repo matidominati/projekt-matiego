@@ -3,6 +3,7 @@ package com.dermont.ResidentialInfo;
 import com.dermont.PersonInfo.Person;
 import com.dermont.PersonInfo.Rental;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class Flat {
@@ -14,7 +15,10 @@ public class Flat {
     private static int ID = 1;
     private int IDNumber;
     private List<Person> tenants;
-    private Rental rental;
+    private List<Rental> rentals;
+    private LocalDate rentalStartDate;
+    private LocalDate rentalEndDate;
+
     private Residential residential;
 
     public Flat(double usableAreaCapacity, Rental rental) {

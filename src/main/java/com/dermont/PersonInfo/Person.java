@@ -39,10 +39,27 @@ public class Person {
         // TODO dodac info o wynajmach
     }
 
-    public boolean checkIfRentFlat(Person person, Residential residential) {
+    public void addParkingSpace(ParkingSpace parkingSpace) {
+        rentedParkingSpace.add(parkingSpace);
+    }
+
+    public void addFlat (Flat flat) {
+        rentedFlat.add(flat);
+    }
+
+    public boolean checkIfRentFlatInResidential(Person person, Residential residential) {
         return
                 person.getRentedFlat().stream()
                         .anyMatch(flat -> flat.getResidential().equals(residential));
+
+    }
+
+    // zakladam, ze ograniczenie wynajecia 5 pomieszczen dotyczy jednego osiedla
+    public int numberOfRentals(Person person) {
+        int numberOfRentedFlats = person.getRentedFlat().size();
+        int numberORentedParkingSpaces = person.getRentedParkingSpace().size();
+
+        return numberOfRentedFlats + numberORentedParkingSpaces;
 
     }
 

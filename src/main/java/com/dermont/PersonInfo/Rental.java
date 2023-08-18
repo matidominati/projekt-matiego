@@ -13,11 +13,6 @@ public class Rental {
     private LocalDate rentalStartDate;
     private LocalDate rentalEndDate;
 
-    public Rental(Person tenant, LocalDate rentalStartDate, LocalDate rentalEndDate) {
-        this.tenant = tenant;
-        this.rentalStartDate = rentalStartDate;
-        this.rentalEndDate = rentalEndDate;
-    }
 
     public Person getTenant() {
         return tenant;
@@ -41,5 +36,18 @@ public class Rental {
 
     public void setRentalEndDate(LocalDate rentalEndDate) {
         this.rentalEndDate = rentalEndDate;
+    }
+
+    public Flat getFlat() {
+        return flat;
+    }
+    public void setFlat(Flat flat) {
+        this.flat = flat;
+    }
+    public ParkingSpace getParkingSpace() {
+        return parkingSpace;
+    }
+    public void setParkingSpace(ParkingSpace parkingSpace) {
+        this.parkingSpace = parkingSpace;
     }
 }
