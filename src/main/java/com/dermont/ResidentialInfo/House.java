@@ -5,13 +5,13 @@ import java.util.List;
 
 public class House {
     private int houseNumber;
-    private List<Flat> flats = new ArrayList<>();
-    private List<ParkingSpace> parkingSpaces = new ArrayList<>();
+    private Residential residentialName;
+    private List<Room> rooms = new ArrayList<>();
 
-    public House(int houseNumber, List<Flat> flats, List<ParkingSpace> parkingSpaces) {
+    public House(int houseNumber, Residential residentialName, List<Room> rooms) {
         this.houseNumber = houseNumber;
-        this.flats = flats;
-        this.parkingSpaces = parkingSpaces;
+        this.residentialName = residentialName;
+        this.rooms = rooms;
     }
 
     public int getHouseNumber() {
@@ -22,19 +22,19 @@ public class House {
         this.houseNumber = houseNumber;
     }
 
-    public List<Flat> getFlats() {
-        return flats;
+    public List<Room> getRooms() {
+        return rooms;
     }
 
-    public void setFlats(List<Flat> flats) {
-        this.flats = flats;
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
     }
 
-    public List<ParkingSpace> getParkingSpaces() {
-        return parkingSpaces;
+    public Residential getResidentialName() {
+        return residentialName;
     }
 
-    public void setParkingSpaces(List<ParkingSpace> parkingSpaces) {
-        this.parkingSpaces = parkingSpaces;
+    public void setResidentialName(Residential residentialName) {
+        this.residentialName = residentialName;
     }
 }

@@ -1,12 +1,14 @@
 package com.dermont.ResidentialInfo;
 
+import com.dermont.PersonInfo.Person;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Residential {
-
     private String residentialName;
     private List<House> houses = new ArrayList<>();
+    private List<Person> tenants = new ArrayList<>();
 
 
     public Residential(String residentialName, List<House> houses) {

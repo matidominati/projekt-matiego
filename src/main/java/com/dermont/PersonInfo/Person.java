@@ -1,27 +1,39 @@
 package com.dermont.PersonInfo;
 
-import com.dermont.ResidentialInfo.Flat;
-import com.dermont.ResidentialInfo.ParkingSpace;
-import com.dermont.ResidentialInfo.Residential;
+import com.dermont.ResidentialInfo.*;
+import com.dermont.ResidentialInfo.String;
 
 import java.util.List;
 
 
 public class Person {
-    private String firstName;
-    private String lastName;
-    private String pesel;
-    private String dateOfBirth;
+    private java.lang.String firstName;
+    private java.lang.String lastName;
+    private java.lang.String pesel;
+    private java.lang.String dateOfBirth;
     private Address address;
-    private List<ParkingSpace> rentedParkingSpace;
-    private List<Flat> rentedFlat;
+    private List<Room> rentedRooms;
+    private List<String> info;
 
-    public Person(String firstName, String lastName, String pesel, String dateOfBirth, Address address) {
+    public Person(java.lang.String firstName, java.lang.String lastName, java.lang.String pesel, java.lang.String dateOfBirth, Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.pesel = pesel;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
+    }
+
+    public boolean checkIfPersonIsResponsibleForRent() {
+        return true;
+
+    }
+
+    public int checkHowManyRoomsPersonRent(Person person) {
+        return getRentedRooms().size();
+    }
+
+    public int checkHowManyDebbtPersonHas(Person person) {
+        return getMessages().size();
     }
 
 
@@ -39,42 +51,35 @@ public class Person {
         // TODO dodac info o wynajmach
     }
 
-    public boolean checkIfRentFlat(Person person, Residential residential) {
-        return
-                person.getRentedFlat().stream()
-                        .anyMatch(flat -> flat.getResidential().equals(residential));
-
-    }
-
-    public String getFirstName() {
+    public java.lang.String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(java.lang.String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
+    public java.lang.String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(java.lang.String lastName) {
         this.lastName = lastName;
     }
 
-    public String getPesel() {
+    public java.lang.String getPesel() {
         return pesel;
     }
 
-    public void setPesel(String pesel) {
+    public void setPesel(java.lang.String pesel) {
         this.pesel = pesel;
     }
 
-    public String getDateOfBirth() {
+    public java.lang.String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(java.lang.String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -86,19 +91,19 @@ public class Person {
         this.address = address;
     }
 
-    public List<ParkingSpace> getRentedParkingSpace() {
-        return rentedParkingSpace;
+    public List<Room> getRentedRooms() {
+        return rentedRooms;
     }
 
-    public void setRentedParkingSpace(List<ParkingSpace> rentedParkingSpace) {
-        this.rentedParkingSpace = rentedParkingSpace;
+    public void setRentedRooms(List<Room> rentedRooms) {
+        this.rentedRooms = rentedRooms;
     }
 
-    public List<Flat> getRentedFlat() {
-        return rentedFlat;
+    public List<String> getMessages() {
+        return info;
     }
 
-    public void setRentedFlat(List<Flat> rentedFlat) {
-        this.rentedFlat = rentedFlat;
+    public void setMessages(List<String> strings) {
+        this.info = strings;
     }
 }

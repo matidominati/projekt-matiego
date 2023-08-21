@@ -1,25 +1,20 @@
 package com.dermont.ResidentialInfo;
 
-import com.dermont.PersonInfo.Rental;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParkingSpace extends Flat {
+public class ParkingSpace extends Room {
     private List<Object> storedItems = new ArrayList<>();
 
-    public ParkingSpace(double usableArea, Rental rental, List<Object> storedItems) {
-        super(usableArea, rental);
-        this.storedItems = storedItems;
+
+    public ParkingSpace(double usableAreaLength, double usableAreaWidth, double usableAreaHeight) {
+        super(usableAreaLength, usableAreaWidth, usableAreaHeight);
     }
 
-
-    public List<Object> getStoredItems() {
-        return storedItems;
+    public ParkingSpace(double usableAreaCapacity) {
+        super(usableAreaCapacity);
     }
 
-    public void setStoredItems(List<Object> storedItems) {
-        this.storedItems = storedItems;
-    }
 }
+
 
