@@ -5,13 +5,15 @@ import java.util.List;
 
 public class House {
     private int houseNumber;
-    private Residential residentialName;
-    private List<Room> rooms = new ArrayList<>();
+    private List<Room> rooms;
 
-    public House(int houseNumber, Residential residentialName, List<Room> rooms) {
+    public House(int houseNumber, List<Room> rooms) {
         this.houseNumber = houseNumber;
-        this.residentialName = residentialName;
         this.rooms = rooms;
+    }
+
+    public void addRoom(Room room){
+        rooms.add(room);
     }
 
     public int getHouseNumber() {
@@ -30,11 +32,5 @@ public class House {
         this.rooms = rooms;
     }
 
-    public Residential getResidentialName() {
-        return residentialName;
-    }
 
-    public void setResidentialName(Residential residentialName) {
-        this.residentialName = residentialName;
-    }
 }

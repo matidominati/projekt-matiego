@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Residential {
     private String residentialName;
-    private List<House> houses = new ArrayList<>();
+    private List<House> houses;
     private List<Person> tenants = new ArrayList<>();
 
 

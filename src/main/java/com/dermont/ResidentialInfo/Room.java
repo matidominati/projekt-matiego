@@ -3,6 +3,7 @@ package com.dermont.ResidentialInfo;
 import com.dermont.PersonInfo.Person;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ public abstract class Room {
     private LocalDate rentalStartDate;
     private LocalDate rentalEndDate;
     private Person mainTenant;
-    private List<Person> tenants;
+    private List<Person> tenants = new ArrayList<>();
 
     public Room(double usableAreaLength, double usableAreaWidth, double usableAreaHeight) {
         this.usableAreaLength = usableAreaLength;
@@ -29,6 +30,7 @@ public abstract class Room {
         this.usableAreaCapacity = usableAreaCapacity;
         this.IDNumber = ID++;
     }
+
     public Optional<Room> findRoom(Residential residential, House house, Room room) {
         return residential.getHouses().stream()
                 .filter(h -> h.equals(house))
@@ -116,5 +118,20 @@ public abstract class Room {
 
     public void setTenants(List<Person> tenants) {
         this.tenants = tenants;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "usableAreaLength=" + usableAreaLength +
+                ", usableAreaWidth=" + usableAreaWidth +
+                ", usableAreaHeight=" + usableAreaHeight +
+                ", usableAreaCapacity=" + usableAreaCapacity +
+                ", IDNumber=" + IDNumber +
+                ", rentalStartDate=" + rentalStartDate +
+                ", rentalEndDate=" + rentalEndDate +
+                ", mainTenant=" + mainTenant +
+                ", tenants=" + tenants +
+                '}';
     }
 }

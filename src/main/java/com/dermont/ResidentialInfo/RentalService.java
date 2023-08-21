@@ -8,10 +8,10 @@ public class RentalService {
     private Person tenant;
     private Room rentRoom;
 
-    public RentalService(Person tenant, Room rentRoom) {
-        this.tenant = tenant;
-        this.rentRoom = rentRoom;
-    }
+//    public RentalService(Person tenant, Room rentRoom) {
+//        this.tenant = tenant;
+//        this.rentRoom = rentRoom;
+//    }
 
     public void rentRoom(Person tenant, Residential residential, House house, Room room) {
         room.findRoom(residential, house, room)
@@ -32,6 +32,11 @@ public class RentalService {
                                 }
                             } else if (rentedRoom instanceof ParkingSpace) {
                                 ParkingSpace parkingSpace = (ParkingSpace) rentedRoom;
+                                if (isRoomEmpty(parkingSpace)) {
+                                    parkingSpace.getTenants().add(tenant);
+                                } else {
+                                    throw new IllegalArgumentException("Miejsce parkingowe jest juz zajete");
+                                }
                                 parkingSpace.setRentalStartDate(LocalDate.now());
                             } else {
                                 throw new IllegalArgumentException("Nieznany typ pomieszczenia");
@@ -43,12 +48,13 @@ public class RentalService {
                         });
     }
 
+
     public boolean isRoomAvailable(Room room) {
         return room.getRentalEndDate() == null;
     }
 
     public boolean checkIsFlatNotFull(Flat flat) {
-        return flat.getTenants().size() <= flat.getMaxNumberOfTenants();
+        return flat.getTenants().size() < flat.getMaxNumberOfTenants();
     }
 
     public boolean isRoomEmpty(Room room) {

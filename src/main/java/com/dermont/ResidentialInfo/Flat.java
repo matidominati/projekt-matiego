@@ -18,6 +18,39 @@ public class Flat extends Room {
         this.maxNumberOfTenants = maxNumberOfTenants;
     }
 
+    public void removeMainTenant(Person tenantToRemove) {
+        if (getMainTenant() != null && tenantToRemove.equals(getMainTenant())) {
+            getTenants().remove(tenantToRemove);
+            if (!getTenants().isEmpty()) {
+                setMainTenant(getTenants().get(0));
+            } else {
+                setMainTenant(null);
+            }
+        }
+    }
+
+    public void addTenant(Person newTenant){
+        if(getTenants().size() < maxNumberOfTenants){
+            getTenants().add(newTenant);
+            if (getTenants().size() == 1){
+                setMainTenant(newTenant);
+            }
+        } else {
+            throw new IllegalArgumentException("Mieszkanie jest pelne. Brak wolnych miejsc");
+        }
+    }
+
+    public void removeTenant(Person tenantToRemove){
+        if(!getTenants().contains(tenantToRemove)){
+            throw new IllegalArgumentException("Podana osoba nie jest lokatorem tego mieszkania");
+        } else {
+            getTenants().remove(tenantToRemove);
+            setMainTenant(getTenants().stream()
+                    .findFirst()
+                    .orElse(null));
+        }
+    }
+
 //    public List<Person> getTenants() {
 //        return tenants;
 //    }

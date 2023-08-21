@@ -1,7 +1,7 @@
 package com.dermont.PersonInfo;
 
 import com.dermont.ResidentialInfo.*;
-import com.dermont.ResidentialInfo.String;
+
 
 import java.util.List;
 
@@ -105,5 +105,14 @@ public class Person {
 
     public void setMessages(List<String> strings) {
         this.info = strings;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", pesel='" + pesel + '\'' +
+                '}';
     }
 }
