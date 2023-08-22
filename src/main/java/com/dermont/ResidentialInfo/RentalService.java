@@ -25,6 +25,8 @@ public class RentalService {
                                     throw new IllegalArgumentException("Mieszkanie jest juz pelne. Brak wolnych miejsc.");
                                 }
                                 flat.setRentalStartDate(LocalDate.now());
+                                flat.setRentalEndDate(LocalDate.now().plusYears(1));
+                                tenant.addRentedRoom(flat);
                                 if (isRoomEmpty(flat)) {
                                     flat.setMainTenant(tenant);
                                 } else {
@@ -34,10 +36,12 @@ public class RentalService {
                                 ParkingSpace parkingSpace = (ParkingSpace) rentedRoom;
                                 if (isRoomEmpty(parkingSpace)) {
                                     parkingSpace.getTenants().add(tenant);
+                                    tenant.addRentedRoom(parkingSpace);
+                                    parkingSpace.setRentalStartDate(LocalDate.now());
+                                    parkingSpace.setRentalEndDate(LocalDate.now().plusYears(1));
                                 } else {
                                     throw new IllegalArgumentException("Miejsce parkingowe jest juz zajete");
                                 }
-                                parkingSpace.setRentalStartDate(LocalDate.now());
                             } else {
                                 throw new IllegalArgumentException("Nieznany typ pomieszczenia");
                             }
@@ -59,6 +63,14 @@ public class RentalService {
 
     public boolean isRoomEmpty(Room room) {
         return room.getTenants().isEmpty();
+    }
+
+    public void displayAvailableRooms(Residential residential){
+        residential.getHouses().stream()
+                .flatMap(house -> house.getRooms().stream())
+                .filter(room -> isRoomAvailable(room))
+                .forEach(room -> System.out.println("Dostępne pomieszczenie na osiedlu: " + residential.getResidentialName() + " :"));
+//                .forEach(room -> System.out.println("Dostępne pomieszczenie na osiedlu: " + residential.getResidentialName() + " :" + room.getIDNumber()));
     }
 
     public void sendInfo(Person person, Room room) {

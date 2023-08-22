@@ -3,6 +3,7 @@ package com.dermont.PersonInfo;
 import com.dermont.ResidentialInfo.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,7 +13,7 @@ public class Person {
     private java.lang.String pesel;
     private java.lang.String dateOfBirth;
     private Address address;
-    private List<Room> rentedRooms;
+    private List<Room> rentedRooms = new ArrayList<>();
     private List<String> info;
 
     public Person(java.lang.String firstName, java.lang.String lastName, java.lang.String pesel, java.lang.String dateOfBirth, Address address) {
@@ -24,33 +25,49 @@ public class Person {
     }
 
     public boolean checkIfPersonIsResponsibleForRent() {
-        return true;
+        return true; //TODO dokonczyc
 
     }
 
-    public int checkHowManyRoomsPersonRent(Person person) {
-        return getRentedRooms().size();
-    }
+//    public int checkHowManyRoomsPersonRent() {               // TODO poki co bezuzyteczna
+//        return getRentedRooms().size();
+//    }
 
     public int checkHowManyDebbtPersonHas(Person person) {
         return getMessages().size();
     }
 
 
-    public void printPersonInfo(Person person, Address address) {
-        System.out.println("Imię: " + person.firstName);
-        System.out.println("Nazwisko: " + person.lastName);
-        System.out.println("Numer PESEL: " + person.pesel);
-        System.out.println("Data urodzenia: " + person.dateOfBirth);
+    public void displayInfo() {
+        System.out.println("Imię: " +getFirstName());
+        System.out.println("Nazwisko: " + getLastName());
+        System.out.println("Numer PESEL: " + getPesel());
+        System.out.println("Data urodzenia: " + getDateOfBirth());
         System.out.println("Adres zamieszkania:");
-        System.out.println("   ulica: " + person.address.getStreet());
-        System.out.println("   numer mieszkania / numer domu: " + person.address.getFlatNumber() + " / " + person.address.getHouseNumber());
-        System.out.println("   kod pocztowy: " + person.address.getPostcode());
-        System.out.println("   miasto: " + person.address.getCity());
+        System.out.println("   ulica: " + address.getStreet());
+        System.out.println("   numer mieszkania / numer domu: " + address.getFlatNumber() + " / " + address.getHouseNumber());
+        System.out.println("   kod pocztowy: " + address.getPostcode());
+        System.out.println("   miasto: " + address.getCity());
+
+        if(rentedRooms.isEmpty()){
+            System.out.println(getFirstName() + " " + getLastName() + " " + "nie wynajmuje żadnych pomieszczen.");
+        } else {
+            System.out.println(getFirstName() + " " + getLastName() + " " + "wynajmuje nastepujace pomieszcznia:");
+            rentedRooms.stream()
+                    .map(room -> "Pomieszczenie ID: " + room.getIDNumber())
+                    .forEach(r -> System.out.println(r));
+        }
 
         // TODO dodac info o wynajmach
     }
 
+    public void addRentedRoom(Room room){
+        rentedRooms.add(room);
+    }
+
+    public void removeRentedRoom(Room room){
+        rentedRooms.remove(room);
+    }
     public java.lang.String getFirstName() {
         return firstName;
     }

@@ -7,15 +7,19 @@ import java.util.List;
 public class Flat extends Room {
 //    private List<Person> tenants;
     private int maxNumberOfTenants;
+    private static int ID = 1;
+    private String flatID;
 
     public Flat(double usableAreaLength, double usableAreaWidth, double usableAreaHeight, int maxNumberOfTenants) {
         super(usableAreaLength, usableAreaWidth, usableAreaHeight);
         this.maxNumberOfTenants = maxNumberOfTenants;
+        this.flatID = "F" + ID++;
     }
 
     public Flat(double usableAreaCapacity, int maxNumberOfTenants) {
         super(usableAreaCapacity);
         this.maxNumberOfTenants = maxNumberOfTenants;
+        this.flatID = "F" + ID++;
     }
 
     public void removeMainTenant(Person tenantToRemove) {
@@ -40,11 +44,12 @@ public class Flat extends Room {
         }
     }
 
-    public void removeTenant(Person tenantToRemove){
+    public void removeTenant(Person tenantToRemove, Flat flat){
         if(!getTenants().contains(tenantToRemove)){
             throw new IllegalArgumentException("Podana osoba nie jest lokatorem tego mieszkania");
         } else {
             getTenants().remove(tenantToRemove);
+            tenantToRemove.removeRentedRoom(flat);
             setMainTenant(getTenants().stream()
                     .findFirst()
                     .orElse(null));
