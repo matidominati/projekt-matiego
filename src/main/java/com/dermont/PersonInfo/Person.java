@@ -3,6 +3,9 @@ package com.dermont.PersonInfo;
 import com.dermont.ResidentialInfo.*;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +17,7 @@ public class Person {
     private java.lang.String dateOfBirth;
     private Address address;
     private List<Room> rentedRooms = new ArrayList<>();
-    private List<String> info;
+    private List<File> info = new ArrayList<>();
 
     public Person(java.lang.String firstName, java.lang.String lastName, java.lang.String pesel, java.lang.String dateOfBirth, Address address) {
         this.firstName = firstName;
@@ -24,22 +27,45 @@ public class Person {
         this.address = address;
     }
 
-    public boolean checkIfPersonIsResponsibleForRent() {
-        return true; //TODO dokonczyc
+    public long checkHowManyRoomsRent(Residential residential) {/// przyjmuje ze nie chodzi o mainTenant tylko ogolnie o lokatora
+        return residential.getHouses().stream()
+                .flatMap(house -> house.getRooms().stream())
+                .filter(room -> room.getTenants().contains(this))
+                .count();
 
     }
-
-//    public int checkHowManyRoomsPersonRent() {               // TODO poki co bezuzyteczna
-//        return getRentedRooms().size();
-//    }
-
-    public int checkHowManyDebbtPersonHas(Person person) {
-        return getMessages().size();
+    public long checkHowManyDebbt(Residential residential) {
+        return info.stream()
+                .filter(infoFIle -> infoFIle.getName().contains(residential.getResidentialName()))
+                .count();
+    }
+    public void checkRentalExpiration(Residential residential) {
+        rentedRooms.stream()
+                .filter(room -> room.isRentalExpired())
+                .forEach( room -> {
+                    String info = "Umowa zakonczenia najmu dobiegla konca dla pomieszczenia o ID: " + room.getIDNumber();
+                    File infoFile = new File("Debbt" +  residential.getResidentialName() + room.getIDNumber() + ".txt");
+                    try (PrintWriter writer = new PrintWriter(infoFile)){
+                        writer.println(info);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
+    public boolean checkIfResponsibleForRent(Residential residential) throws IllegalArgumentException, ProblematicTenantException {
+        if (checkHowManyRoomsRent(residential) > 5) {
+            throw new IllegalArgumentException("Najemca wynajmuje za duzo pomieszczen na tym osiedlu");
+        }
+        if (checkHowManyDebbt(residential) > 3) {
+            throw new ProblematicTenantException("Osoba " + getFirstName() + " " + getLastName()
+                    + "posiadala juz najem pomieszczen: " + getRentedRooms().toString());
+        }
+        return false;
     }
 
 
     public void displayInfo() {
-        System.out.println("Imię: " +getFirstName());
+        System.out.println("Imię: " + getFirstName());
         System.out.println("Nazwisko: " + getLastName());
         System.out.println("Numer PESEL: " + getPesel());
         System.out.println("Data urodzenia: " + getDateOfBirth());
@@ -49,7 +75,7 @@ public class Person {
         System.out.println("   kod pocztowy: " + address.getPostcode());
         System.out.println("   miasto: " + address.getCity());
 
-        if(rentedRooms.isEmpty()){
+        if (rentedRooms.isEmpty()) {
             System.out.println(getFirstName() + " " + getLastName() + " " + "nie wynajmuje żadnych pomieszczen.");
         } else {
             System.out.println(getFirstName() + " " + getLastName() + " " + "wynajmuje nastepujace pomieszcznia:");
@@ -58,16 +84,16 @@ public class Person {
                     .forEach(r -> System.out.println(r));
         }
 
-        // TODO dodac info o wynajmach
     }
 
-    public void addRentedRoom(Room room){
+    public void addRentedRoom(Room room) {
         rentedRooms.add(room);
     }
 
-    public void removeRentedRoom(Room room){
+    public void removeRentedRoom(Room room) {
         rentedRooms.remove(room);
     }
+
     public java.lang.String getFirstName() {
         return firstName;
     }
@@ -116,12 +142,12 @@ public class Person {
         this.rentedRooms = rentedRooms;
     }
 
-    public List<String> getMessages() {
+    public List<String> getInfo() {
         return info;
     }
 
-    public void setMessages(List<String> strings) {
-        this.info = strings;
+    public void setInfo(List<String> info) {
+        this.info = info;
     }
 
     @Override

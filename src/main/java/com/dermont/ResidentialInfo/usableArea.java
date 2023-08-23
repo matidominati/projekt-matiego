@@ -12,6 +12,8 @@ public class usableArea {
         this.usableAreaHeight = usableAreaHeight;
     }
 
+
+
     public usableArea(double usableAreaCapacity) {
         this.usableAreaCapacity = usableAreaCapacity;
     }

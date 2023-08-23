@@ -10,16 +10,29 @@ public class Flat extends Room {
     private static int ID = 1;
     private String flatID;
 
-    public Flat(double usableAreaLength, double usableAreaWidth, double usableAreaHeight, int maxNumberOfTenants) {
-        super(usableAreaLength, usableAreaWidth, usableAreaHeight);
+//    public Flat(double usableAreaLength, double usableAreaWidth, double usableAreaHeight, int maxNumberOfTenants) {
+//        super(usableAreaLength, usableAreaWidth, usableAreaHeight);
+//        this.maxNumberOfTenants = maxNumberOfTenants;
+//        this.flatID = "F" + ID++;
+//    }
+//
+//    public Flat(double usableAreaCapacity, int maxNumberOfTenants) {
+//        super(usableAreaCapacity);
+//        this.maxNumberOfTenants = maxNumberOfTenants;
+//        this.flatID = "F" + ID++;
+//    }
+
+
+    public Flat(usableArea dimensions, int IDNumber, int maxNumberOfTenants) {
+        super(dimensions, IDNumber);
         this.maxNumberOfTenants = maxNumberOfTenants;
-        this.flatID = "F" + ID++;
+        this.flatID = flatID;
     }
 
-    public Flat(double usableAreaCapacity, int maxNumberOfTenants) {
-        super(usableAreaCapacity);
+    public Flat(usableArea dimensions, int maxNumberOfTenants) {
+        super(dimensions);
         this.maxNumberOfTenants = maxNumberOfTenants;
-        this.flatID = "F" + ID++;
+        this.flatID = flatID;
     }
 
     public void removeMainTenant(Person tenantToRemove) {

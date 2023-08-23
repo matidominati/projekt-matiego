@@ -9,16 +9,19 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
+        usableArea small = new usableArea(25);
+        usableArea medium = new usableArea(5, 10, 3);
+        usableArea large = new usableArea(200);
         RentalService rentalService = new RentalService();
-        Flat flat1 = new Flat(100, 3);
-        Flat flat2 = new Flat(120, 6);
-        Flat flat3 = new Flat(50, 2);
-        Flat flat4 = new Flat(25, 1);
-        Flat flat5 = new Flat(25, 1);
-        Flat flat6 = new Flat(35, 8);
+        Flat flat1 = new Flat(small, 3);
+        Flat flat2 = new Flat(medium, 6);
+        Flat flat3 = new Flat(small, 2);
+        Flat flat4 = new Flat(small, 1);
+        Flat flat5 = new Flat(medium, 1);
+        Flat flat6 = new Flat(large, 8);
 
-        ParkingSpace parkgingSpace1 = new ParkingSpace(20);
-        ParkingSpace parkgingSpace2 = new ParkingSpace(25);
+        ParkingSpace parkgingSpace1 = new ParkingSpace(small);
+        ParkingSpace parkgingSpace2 = new ParkingSpace(small);
 
         House house1 = new House(1, new ArrayList<>());
         house1.addRoom(flat1);

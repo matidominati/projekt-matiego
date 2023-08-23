@@ -42,14 +42,17 @@ public abstract class Room {
 //        this.IDNumber = ID++;
 //}
 
+    public boolean isRentalExpired() {
+        return rentalEndDate != null && rentalEndDate.isBefore(LocalDate.now());
+    }
 
-public Optional<Room> findRoom(Residential residential,House house,Room room){
+    public Optional<Room> findRoom(Residential residential, House house, Room room) {
         return residential.getHouses().stream()
-        .filter(h->h.equals(house))
-        .flatMap(h->h.getRooms().stream())
-        .filter(r->r.equals(room))
-        .findFirst();
-        }
+                .filter(h -> h.equals(house))
+                .flatMap(h -> h.getRooms().stream())
+                .filter(r -> r.equals(room))
+                .findFirst();
+    }
 
 //
 //public double getUsableAreaLength(){
@@ -84,67 +87,63 @@ public Optional<Room> findRoom(Residential residential,House house,Room room){
 //        this.usableAreaCapacity=usableAreaCapacity;
 //        }
 
-public static int getID(){
+    public static int getID() {
         return ID;
-        }
+    }
 
-public static void setID(int ID){
-        Room.ID=ID;
-        }
+    public static void setID(int ID) {
+        Room.ID = ID;
+    }
 
-public int getIDNumber(){
+    public int getIDNumber() {
         return IDNumber;
-        }
+    }
 
-public void setIDNumber(int IDNumber){
-        this.IDNumber=IDNumber;
-        }
+    public void setIDNumber(int IDNumber) {
+        this.IDNumber = IDNumber;
+    }
 
-public LocalDate getRentalStartDate(){
+    public LocalDate getRentalStartDate() {
         return rentalStartDate;
-        }
+    }
 
-public void setRentalStartDate(LocalDate rentalStartDate){
-        this.rentalStartDate=rentalStartDate;
-        }
+    public void setRentalStartDate(LocalDate rentalStartDate) {
+        this.rentalStartDate = rentalStartDate;
+    }
 
-public LocalDate getRentalEndDate(){
+    public LocalDate getRentalEndDate() {
         return rentalEndDate;
-        }
+    }
 
-public void setRentalEndDate(LocalDate rentalEndDate){
-        this.rentalEndDate=rentalEndDate;
-        }
+    public void setRentalEndDate(LocalDate rentalEndDate) {
+        this.rentalEndDate = rentalEndDate;
+    }
 
-public Person getMainTenant(){
+    public Person getMainTenant() {
         return mainTenant;
-        }
+    }
 
-public void setMainTenant(Person mainTenant){
-        this.mainTenant=mainTenant;
-        }
+    public void setMainTenant(Person mainTenant) {
+        this.mainTenant = mainTenant;
+    }
 
 
-public List<Person> getTenants(){
+    public List<Person> getTenants() {
         return tenants;
-        }
+    }
 
-public void setTenants(List<Person> tenants){
-        this.tenants=tenants;
-        }
+    public void setTenants(List<Person> tenants) {
+        this.tenants = tenants;
+    }
 
-@Override
-public String toString(){
-        return"Room{"+
-        "usableAreaLength="+usableAreaLength+
-        ", usableAreaWidth="+usableAreaWidth+
-        ", usableAreaHeight="+usableAreaHeight+
-        ", usableAreaCapacity="+usableAreaCapacity+
-        ", IDNumber="+IDNumber+
-        ", rentalStartDate="+rentalStartDate+
-        ", rentalEndDate="+rentalEndDate+
-        ", mainTenant="+mainTenant+
-        ", tenants="+tenants+
-        '}';
-        }
-        }
+    @Override
+    public String toString() {
+        return "Room{" +
+                ", IDNumber=" + IDNumber +
+                ", rentalStartDate=" + rentalStartDate +
+                ", rentalEndDate=" + rentalEndDate +
+                ", mainTenant=" + mainTenant +
+                ", tenants=" + tenants +
+                '}';
+    }
+}

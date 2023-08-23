@@ -7,14 +7,18 @@ public class ParkingSpace extends Room {
     private List<Object> storedItems = new ArrayList<>();
 
 
-    public ParkingSpace(double usableAreaLength, double usableAreaWidth, double usableAreaHeight) {
-        super(usableAreaLength, usableAreaWidth, usableAreaHeight);
-    }
+//    public ParkingSpace(double usableAreaLength, double usableAreaWidth, double usableAreaHeight) {
+//        super(usableAreaLength, usableAreaWidth, usableAreaHeight);
+//    }
+//
+//    public ParkingSpace(double usableAreaCapacity) {
+//        super(usableAreaCapacity);
+//    }
 
-    public ParkingSpace(double usableAreaCapacity) {
-        super(usableAreaCapacity);
-    }
 
+    public ParkingSpace(usableArea dimensions) {
+        super(dimensions);
+    }
 }
 
 
