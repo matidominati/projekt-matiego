@@ -2,8 +2,6 @@ package com.dermont.ResidentialInfo;
 
 import com.dermont.PersonInfo.Person;
 
-import java.util.List;
-
 public class Flat extends Room {
 //    private List<Person> tenants;
     private int maxNumberOfTenants;
@@ -23,13 +21,13 @@ public class Flat extends Room {
 //    }
 
 
-    public Flat(usableArea dimensions, int IDNumber, int maxNumberOfTenants) {
+    public Flat(UsableAreaSpace dimensions, int IDNumber, int maxNumberOfTenants) {
         super(dimensions, IDNumber);
         this.maxNumberOfTenants = maxNumberOfTenants;
         this.flatID = flatID;
     }
 
-    public Flat(usableArea dimensions, int maxNumberOfTenants) {
+    public Flat(UsableAreaSpace dimensions, int maxNumberOfTenants) {
         super(dimensions);
         this.maxNumberOfTenants = maxNumberOfTenants;
         this.flatID = flatID;

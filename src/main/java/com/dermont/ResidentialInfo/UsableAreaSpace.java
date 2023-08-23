@@ -1,20 +1,20 @@
 package com.dermont.ResidentialInfo;
 
-public class usableArea {
+public class UsableAreaSpace {
     private double usableAreaLength;
     private double usableAreaWidth;
     private double usableAreaHeight;
     private double usableAreaCapacity;
 
-    public usableArea(double usableAreaLength, double usableAreaWidth, double usableAreaHeight) {
+
+    public UsableAreaSpace(double usableAreaLength, double usableAreaWidth, double usableAreaHeight) {
         this.usableAreaLength = usableAreaLength;
         this.usableAreaWidth = usableAreaWidth;
         this.usableAreaHeight = usableAreaHeight;
+        this.usableAreaCapacity = usableAreaHeight * usableAreaLength * usableAreaWidth;
     }
 
-
-
-    public usableArea(double usableAreaCapacity) {
+    public UsableAreaSpace(double usableAreaCapacity) {
         this.usableAreaCapacity = usableAreaCapacity;
     }
 

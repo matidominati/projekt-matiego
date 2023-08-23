@@ -16,7 +16,7 @@ public class ParkingSpace extends Room {
 //    }
 
 
-    public ParkingSpace(usableArea dimensions) {
+    public ParkingSpace(UsableAreaSpace dimensions) {
         super(dimensions);
     }
 }

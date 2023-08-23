@@ -77,7 +77,7 @@ public class RentalService {
         LocalDate currentDate = LocalDate.now();
         if (room.getRentalEndDate() != null && room.getRentalEndDate().isBefore(currentDate)) {
             String info = "Tresc zawiadomienia";
-            person.getInfo().add(info);
+            person.getDebbtInfo().add(info);
         }
 
     }

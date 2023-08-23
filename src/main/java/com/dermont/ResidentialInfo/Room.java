@@ -12,7 +12,7 @@ public abstract class Room {
 //    private double usableAreaWidth;
 //    private double usableAreaHeight;
 //    private double usableAreaCapacity;
-    private usableArea dimensions;
+    private UsableAreaSpace dimensions;
     private static int ID = 1;
     private int IDNumber;
     private LocalDate rentalStartDate;
@@ -28,12 +28,12 @@ public abstract class Room {
 //}
 
 
-    public Room(usableArea dimensions, int IDNumber) {
+    public Room(UsableAreaSpace dimensions, int IDNumber) {
         this.dimensions = dimensions;
         this.IDNumber = IDNumber;
     }
 
-    public Room(usableArea dimensions) {
+    public Room(UsableAreaSpace dimensions) {
         this.IDNumber = ID++;
     }
 //

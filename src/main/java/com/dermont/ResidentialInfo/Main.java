@@ -9,9 +9,9 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        usableArea small = new usableArea(25);
-        usableArea medium = new usableArea(5, 10, 3);
-        usableArea large = new usableArea(200);
+        UsableAreaSpace small = new UsableAreaSpace(25);
+        UsableAreaSpace medium = new UsableAreaSpace(5, 10, 3);
+        UsableAreaSpace large = new UsableAreaSpace(200);
         RentalService rentalService = new RentalService();
         Flat flat1 = new Flat(small, 3);
         Flat flat2 = new Flat(medium, 6);

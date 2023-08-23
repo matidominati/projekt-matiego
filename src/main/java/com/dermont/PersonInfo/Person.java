@@ -17,7 +17,7 @@ public class Person {
     private java.lang.String dateOfBirth;
     private Address address;
     private List<Room> rentedRooms = new ArrayList<>();
-    private List<File> info = new ArrayList<>();
+    private List<File> DebbtInfo = new ArrayList<>();
 
     public Person(java.lang.String firstName, java.lang.String lastName, java.lang.String pesel, java.lang.String dateOfBirth, Address address) {
         this.firstName = firstName;
@@ -35,7 +35,7 @@ public class Person {
 
     }
     public long checkHowManyDebbt(Residential residential) {
-        return info.stream()
+        return DebbtInfo.stream()
                 .filter(infoFIle -> infoFIle.getName().contains(residential.getResidentialName()))
                 .count();
     }
@@ -47,6 +47,7 @@ public class Person {
                     File infoFile = new File("Debbt" +  residential.getResidentialName() + room.getIDNumber() + ".txt");
                     try (PrintWriter writer = new PrintWriter(infoFile)){
                         writer.println(info);
+                        getDebbtInfo().add(infoFile);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -142,12 +143,12 @@ public class Person {
         this.rentedRooms = rentedRooms;
     }
 
-    public List<String> getInfo() {
-        return info;
+    public List<File> getDebbtInfo() {
+        return DebbtInfo;
     }
 
-    public void setInfo(List<String> info) {
-        this.info = info;
+    public void setDebbtInfo(List<File> debbtInfo) {
+        this.DebbtInfo = debbtInfo;
     }
 
     @Override
