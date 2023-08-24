@@ -1,4 +1,4 @@
-package com.dermont.StoredItems;
+package com.dermont.storedItems;
 
 public class BoatVehicle extends Vehicle{
     private boolean haveSail;

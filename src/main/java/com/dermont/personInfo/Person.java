@@ -1,6 +1,6 @@
-package com.dermont.PersonInfo;
+package com.dermont.personInfo;
 
-import com.dermont.ResidentialInfo.*;
+import com.dermont.residentialInfo.*;
 
 
 import java.io.File;
@@ -25,27 +25,28 @@ public class Person {
         this.pesel = pesel;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
+        this.id = idCounter++;
     }
 
-    public long checkHowManyRoomsRent(Residential residential) {/// przyjmuje ze nie chodzi o mainTenant tylko ogolnie o lokatora
+    public long checkHowManyRoomsRentOn(Residential residential) {/// przyjmuje ze nie chodzi o mainTenant tylko ogolnie o lokatora
         return residential.getHouses().stream()
-                .flatMap(house -> house.getRooms().stream())
+                .flatMap(house -> house.getSpaces().stream())
                 .filter(room -> room.getTenants().contains(this))
                 .count();
-
     }
-    public long checkHowManyDebbt(Residential residential) {
+
+    public long checkHowManyDebbtHasOn(Residential residential) {
         return DebbtInfo.stream()
                 .filter(infoFIle -> infoFIle.getName().contains(residential.getResidentialName()))
                 .count();
     }
     public void checkRentalExpiration(Residential residential) {
         rentedRooms.stream()
-                .filter(room -> room.isRentalExpired())
-                .forEach( room -> {
-                    String info = "Umowa zakonczenia najmu dobiegla konca dla pomieszczenia o ID: " + room.getIDNumber();
-                    File infoFile = new File("Debbt" +  residential.getResidentialName() + room.getIDNumber() + ".txt");
-                    try (PrintWriter writer = new PrintWriter(infoFile)){
+                .filter(space -> space.isRentalExpired())
+                .forEach(space -> {
+                    String info = "Umowa zakonczenia najmu dobiegla konca dla pomieszczenia o ID: " + space.getId();
+                    File infoFile = new File("Debbt" + residential.getResidentialName() + space.getId() + ".txt");
+                    try (PrintWriter writer = new PrintWriter(infoFile)) {
                         writer.println(info);
                         getDebbtInfo().add(infoFile);
                     } catch (IOException e) {
@@ -54,10 +55,10 @@ public class Person {
                 });
     }
     public boolean checkIfResponsibleForRent(Residential residential) throws IllegalArgumentException, ProblematicTenantException {
-        if (checkHowManyRoomsRent(residential) > 5) {
+        if (checkHowManyRoomsRentOn(residential) > 5) {
             throw new IllegalArgumentException("Najemca wynajmuje za duzo pomieszczen na tym osiedlu");
         }
-        if (checkHowManyDebbt(residential) > 3) {
+        if (checkHowManyDebbtHasOn(residential) > 3) {
             throw new ProblematicTenantException("Osoba " + getFirstName() + " " + getLastName()
                     + "posiadala juz najem pomieszczen: " + getRentedRooms().toString());
         }
@@ -81,7 +82,7 @@ public class Person {
         } else {
             System.out.println(getFirstName() + " " + getLastName() + " " + "wynajmuje nastepujace pomieszcznia:");
             rentedRooms.stream()
-                    .map(room -> "Pomieszczenie ID: " + room.getIDNumber())
+                    .map(room -> "Pomieszczenie ID: " + room.getId())
                     .forEach(r -> System.out.println(r));
         }
 
@@ -149,6 +150,22 @@ public class Person {
 
     public void setDebbtInfo(List<File> debbtInfo) {
         this.DebbtInfo = debbtInfo;
+    }
+
+    public static int getIdCounter() {
+        return idCounter;
+    }
+
+    public static void setIdCounter(int idCounter) {
+        Person.idCounter = idCounter;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

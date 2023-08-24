@@ -1,4 +1,4 @@
-package com.dermont.StoredItems;
+package com.dermont.storedItems;
 
 public class MotorcycleVehicle extends Vehicle{
     private String type;

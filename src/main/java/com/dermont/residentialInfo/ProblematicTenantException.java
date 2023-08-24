@@ -1,4 +1,4 @@
-package com.dermont.ResidentialInfo;
+package com.dermont.residentialInfo;
 
 public class ProblematicTenantException extends Exception{
     public ProblematicTenantException(String info){

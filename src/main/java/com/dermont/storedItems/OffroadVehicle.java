@@ -1,4 +1,4 @@
-package com.dermont.StoredItems;
+package com.dermont.storedItems;
 
 public class OffroadVehicle extends CityVehicle{
     private boolean haveAllWheelDrive;
