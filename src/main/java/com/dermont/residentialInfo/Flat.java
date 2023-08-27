@@ -2,11 +2,13 @@ package com.dermont.residentialInfo;
 
 import com.dermont.personInfo.Person;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Flat extends Space {
     private int maxNumberOfTenants;
-    private List<Person> tenants;
+    private List<Person> tenants = new ArrayList<>();
 
 
     public Flat(UsableAreaSpace dimensions, int maxNumberOfTenants) {
@@ -15,11 +17,14 @@ public class Flat extends Space {
 
     }
 
-    public void addTenant(Person newTenant) {
+    public void addTenant(Person newTenant, Flat flat) {
         if (getTenants().size() < maxNumberOfTenants) {
             getTenants().add(newTenant);
+            newTenant.getRentedSpaces().add(flat);
             if (getTenants().size() == 1) {
                 setMainTenant(newTenant);
+                setRentalStartDate(LocalDate.now());
+                setRentalEndDate(LocalDate.now().plusYears(1));
             }
         } else {
             throw new IllegalArgumentException("Mieszkanie jest pelne. Brak wolnych miejsc");

@@ -5,10 +5,9 @@ import com.dermont.personInfo.Person;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ProblematicTenantException {
         ScannerMethods scannerMethods = new ScannerMethods();
 
         UsableAreaSpace smallFlat = new UsableAreaSpace(28);
@@ -18,12 +17,12 @@ public class Main {
         UsableAreaSpace mediumParkingSpace = new UsableAreaSpace(10);
         UsableAreaSpace largeParkingSpace = new UsableAreaSpace(15);
 
-        Flat flat1 = new Flat(smallFlat, 2);
-        Flat flat2 = new Flat(mediumFlat, 3);
-        Flat flat3 = new Flat(mediumFlat, 3);
-        Flat flat4 = new Flat(mediumFlat, 3);
-        Flat flat5 = new Flat(largeFlat, 4);
-        Flat flat6 = new Flat(largeFlat, 4);
+        Flat flat1 = new Flat(smallFlat, 10);
+        Flat flat2 = new Flat(mediumFlat, 10);
+        Flat flat3 = new Flat(mediumFlat, 10);
+        Flat flat4 = new Flat(mediumFlat, 10);
+        Flat flat5 = new Flat(largeFlat, 10);
+        Flat flat6 = new Flat(largeFlat, 10);
         ParkingSpace parkingSpace1 = new ParkingSpace(smallParkingSpace);
         ParkingSpace parkingSpace2 = new ParkingSpace(smallParkingSpace);
         ParkingSpace parkingSpace3 = new ParkingSpace(mediumParkingSpace);
@@ -69,14 +68,24 @@ public class Main {
         osiedle1.getTenants().add(person5);
         osiedle1.getTenants().add(person6);
 
+        flat1.addTenant(person1, flat1);
+        flat2.addTenant(person1, flat2);
+        flat3.addTenant(person2, flat3);
+        flat4.addTenant(person3, flat4);
+        parkingSpace1.rentParkingSpace(person1,parkingSpace1);
+        parkingSpace2.rentParkingSpace(person1,parkingSpace2);
+        parkingSpace3.rentParkingSpace(person2,parkingSpace3);
+        parkingSpace4.rentParkingSpace(person3,parkingSpace4);
 
-        scannerMethods.printMenuListOfUsers(osiedle1);
+
+        Person selectedPerson = scannerMethods.printMenuListOfUsers(osiedle1);
+        scannerMethods.handleUserMenu(selectedPerson, osiedle1);
 
 
-
-
-        }
-
+    }
 
 
 }
+
+
+

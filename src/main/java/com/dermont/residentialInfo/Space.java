@@ -8,7 +8,8 @@ import java.util.List;
 
 public class Space {
 
-    private static int idCounter = 1;
+    private static int flatIdCounter = 1;
+    private static int parkingIdCounter = 1;
     private String id;
     private UsableAreaSpace dimensions;
     private static int ID = 1;
@@ -20,96 +21,114 @@ public class Space {
 
     public Space(UsableAreaSpace dimensions, String prefix) {
         this.dimensions = new UsableAreaSpace(dimensions.getUsableAreaCapacity());
-        this.id = prefix + idCounter++;
+        if (prefix.equals("F")) {
+            this.id = prefix + flatIdCounter++;
+        } else {
+            this.id = prefix + parkingIdCounter++;
+        }
     }
 
-    public boolean isRoomAvailable(Space room) {
-        return room.getRentalEndDate() == null;
-    }
+        public boolean isSpaceAvailable (Space space){
+            if (space instanceof Flat) {
+                Flat flat = (Flat) space;
+                return space.getRentalEndDate() == null && flat.getTenants().size() < flat.getMaxNumberOfTenants();
+            }
+            return space.getRentalEndDate() == null;
+        }
 
-    public boolean checkIsFlatNotFull(Flat flat) {
-        return flat.getTenants().size() < flat.getMaxNumberOfTenants();
-    }
-
-    public boolean isRoomEmpty(Space room) {
-        return room.getTenants().isEmpty();
-    }
-
-    public void displayAvailableRooms(Residential residential) {
-        residential.getHouses().stream()
-                .flatMap(block -> block.getSpaces().stream())
-                .filter(space -> isRoomAvailable(space))
-                .forEach(space -> System.out.println("Dostępne pomieszczenie na osiedlu: " + residential.getResidentialName() + " :" + space.getId()));
-    }
-    public boolean isRentalExpired() {
-        return rentalEndDate != null && rentalEndDate.isBefore(LocalDate.now());
-    }
-
-    public static int getIdCounter() {
-        return idCounter;
-    }
-
-    public static void setIdCounter(int idCounter) {
-        Space.idCounter = idCounter;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public UsableAreaSpace getDimensions() {
-        return dimensions;
-    }
-
-    public void setDimensions(UsableAreaSpace dimensions) {
-        this.dimensions = dimensions;
-    }
-
-    public LocalDate getRentalStartDate() {
-        return rentalStartDate;
-    }
-
-    public void setRentalStartDate(LocalDate rentalStartDate) {
-        this.rentalStartDate = rentalStartDate;
-    }
-
-    public LocalDate getRentalEndDate() {
-        return rentalEndDate;
-    }
-
-    public void setRentalEndDate(LocalDate rentalEndDate) {
-        this.rentalEndDate = rentalEndDate;
-    }
-
-    public Person getMainTenant() {
-        return mainTenant;
-    }
-
-    public void setMainTenant(Person mainTenant) {
-        this.mainTenant = mainTenant;
-    }
+        public void displaySpaceContents (Space space){
+            if (space instanceof Flat) {
+                Flat flat = (Flat) space;
+                System.out.print("Ilość lokatorow w mieszkaniu " + flat.getId() + ": ");
+                System.out.println(flat.getTenants().size());
+                System.out.println(flat.getTenants().toString());
+                System.out.println("Glowny najemca" + flat.getMainTenant());
+            }
+            if (space instanceof ParkingSpace) {
+                ParkingSpace parkingSpace = (ParkingSpace) space;
+                System.out.println("Zawartosc miejsca parkignowego " + parkingSpace.getId() + ": ");
+                System.out.println(parkingSpace.getStoredItems().toString());
+            }
+        }
 
 
-    public List<Person> getTenants() {
-        return tenants;
-    }
+        public boolean isRentalExpired () {
+            return rentalEndDate != null && rentalEndDate.isBefore(LocalDate.now());
+        }
 
-    public void setTenants(List<Person> tenants) {
-        this.tenants = tenants;
-    }
+        public static int getFlatIdCounter () {
+            return flatIdCounter;
+        }
 
-    @Override
-    public String toString() {
-        return "Space{" +
-                ", IDNumber=" + id +
-                ", rentalStartDate=" + rentalStartDate +
-                ", rentalEndDate=" + rentalEndDate +
-                ", mainTenant=" + mainTenant +
-                ", tenants=" + tenants +
-                '}';
+        public static void setFlatIdCounter ( int flatIdCounter){
+            Space.flatIdCounter = flatIdCounter;
+        }
+
+        public String getId () {
+            return id;
+        }
+
+        public void setId (String id){
+            this.id = id;
+        }
+
+        public UsableAreaSpace getDimensions () {
+            return dimensions;
+        }
+
+        public void setDimensions (UsableAreaSpace dimensions){
+            this.dimensions = dimensions;
+        }
+
+        public LocalDate getRentalStartDate () {
+            return rentalStartDate;
+        }
+
+        public void setRentalStartDate (LocalDate rentalStartDate){
+            this.rentalStartDate = rentalStartDate;
+        }
+
+        public LocalDate getRentalEndDate () {
+            return rentalEndDate;
+        }
+
+        public void setRentalEndDate (LocalDate rentalEndDate){
+            this.rentalEndDate = rentalEndDate;
+        }
+
+        public Person getMainTenant () {
+            return mainTenant;
+        }
+
+        public void setMainTenant (Person mainTenant){
+            this.mainTenant = mainTenant;
+        }
+
+
+        public List<Person> getTenants () {
+            return tenants;
+        }
+
+        public void setTenants (List < Person > tenants) {
+            this.tenants = tenants;
+        }
+
+        public static int getParkingIdCounter () {
+            return parkingIdCounter;
+        }
+
+        public static void setParkingIdCounter ( int parkingIdCounter){
+            Space.parkingIdCounter = parkingIdCounter;
+        }
+
+        @Override
+        public String toString () {
+            return "Space{" +
+                    ", IDNumber=" + id +
+                    ", rentalStartDate=" + rentalStartDate +
+                    ", rentalEndDate=" + rentalEndDate +
+                    ", mainTenant=" + mainTenant +
+                    ", tenants=" + tenants +
+                    '}';
+        }
     }
-}

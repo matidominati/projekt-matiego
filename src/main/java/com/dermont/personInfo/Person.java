@@ -29,9 +29,9 @@ public class Person {
     }
 
     public long checkHowManyRoomsRentOn(Residential residential) {/// przyjmuje ze nie chodzi o mainTenant tylko ogolnie o lokatora
-        return residential.getHouses().stream()
-                .flatMap(house -> house.getSpaces().stream())
-                .filter(room -> room.getTenants().contains(this))
+        return residential.getBlocks().stream()
+                .flatMap(block -> block.getSpaces().stream())
+                .filter(space -> space.getTenants().contains(this))
                 .count();
     }
 
@@ -41,7 +41,7 @@ public class Person {
                 .count();
     }
     public void checkRentalExpiration(Residential residential) {
-        rentedRooms.stream()
+        rentedSpaces.stream()
                 .filter(space -> space.isRentalExpired())
                 .forEach(space -> {
                     String info = "Umowa zakonczenia najmu dobiegla konca dla pomieszczenia o ID: " + space.getId();
@@ -54,18 +54,28 @@ public class Person {
                     }
                 });
     }
-    public boolean checkIfResponsibleForRent(Residential residential) throws IllegalArgumentException, ProblematicTenantException {
+    public void checkIfPersonIsResponsibleForRent(Residential residential) throws IllegalArgumentException, ProblematicTenantException {
         if (checkHowManyRoomsRentOn(residential) > 5) {
             throw new IllegalArgumentException("Najemca wynajmuje za duzo pomieszczen na tym osiedlu");
         }
         if (checkHowManyDebbtHasOn(residential) > 3) {
             throw new ProblematicTenantException("Osoba " + getFirstName() + " " + getLastName()
-                    + "posiadala juz najem pomieszczen: " + getRentedRooms().toString());
+                    + "posiadala juz najem pomieszczen: " + getRentedSpaces().toString());
         }
-        return false;
+
     }
 
 
+    public void checkRentedSpaces(){
+        if (rentedSpaces.isEmpty()) {
+            System.out.println(getFirstName() + " " + getLastName() + " " + "nie wynajmuje żadnych pomieszczen.");
+        } else {
+            System.out.println(getFirstName() + " " + getLastName() + " " + "wynajmuje nastepujace pomieszcznia:");
+            rentedSpaces.stream()
+                    .map(space -> "Pomieszczenie ID: " + space.getId())
+                    .forEach(s -> System.out.println(s));
+        }
+    }
     public void displayInfo() {
         System.out.println("Imię: " + getFirstName());
         System.out.println("Nazwisko: " + getLastName());
@@ -77,14 +87,6 @@ public class Person {
         System.out.println("   kod pocztowy: " + address.getPostcode());
         System.out.println("   miasto: " + address.getCity());
 
-        if (rentedRooms.isEmpty()) {
-            System.out.println(getFirstName() + " " + getLastName() + " " + "nie wynajmuje żadnych pomieszczen.");
-        } else {
-            System.out.println(getFirstName() + " " + getLastName() + " " + "wynajmuje nastepujace pomieszcznia:");
-            rentedRooms.stream()
-                    .map(room -> "Pomieszczenie ID: " + room.getId())
-                    .forEach(r -> System.out.println(r));
-        }
 
     }
 
@@ -170,10 +172,9 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", pesel='" + pesel + '\'' +
-                '}';
+        return
+                "Imie: " + firstName  +
+                ", Nazwisko: " + lastName +
+                ", PESEL: " + pesel  ;
     }
 }
