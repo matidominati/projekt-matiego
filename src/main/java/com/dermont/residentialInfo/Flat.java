@@ -11,7 +11,7 @@ public class Flat extends Space {
     private List<Person> tenants = new ArrayList<>();
 
 
-    public Flat(UsableAreaSpace dimensions, int maxNumberOfTenants) {
+    public Flat(AreaSpace dimensions, int maxNumberOfTenants) {
         super(dimensions, "F");
         this.maxNumberOfTenants = maxNumberOfTenants;
 

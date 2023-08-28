@@ -1,11 +1,13 @@
 package com.dermont.storedItems;
 
+import com.dermont.residentialInfo.AreaSpace;
+
 public class MotorcycleVehicle extends Vehicle{
     private String type;
     private double loudness;
 
-    public MotorcycleVehicle(String name, double occupiedArea, String type, double loudness) {
-        super(name, occupiedArea);
+    public MotorcycleVehicle(String name, AreaSpace dimensions, String type, double loudness) {
+        super(name, dimensions);
         this.type = type;
         this.loudness = loudness;
     }

@@ -1,11 +1,13 @@
 package com.dermont.storedItems;
 
+import com.dermont.residentialInfo.AreaSpace;
+
 public class BoatVehicle extends Vehicle{
     private boolean haveSail;
     private boolean isRegistered;
 
-    public BoatVehicle(String name, double occupiedArea, boolean haveSail, boolean isRegistered) {
-        super(name, occupiedArea);
+    public BoatVehicle(String name, AreaSpace dimensions, boolean haveSail, boolean isRegistered) {
+        super(name, dimensions);
         this.haveSail = haveSail;
         this.isRegistered = isRegistered;
     }

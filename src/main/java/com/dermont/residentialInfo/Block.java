@@ -5,15 +5,11 @@ import java.util.List;
 
 public class Block {
     private int blockNumber;
-    private List<Space> spaces = new ArrayList<>();
+    private List<Space> spaces;
 
     public House(int houseNumber, List<Room> rooms) {
         this.houseNumber = houseNumber;
         this.rooms = rooms;
-    }
-
-    public void addSpace(Space space){
-        spaces.add(space);
     }
 
     public int getBlockNumber() {

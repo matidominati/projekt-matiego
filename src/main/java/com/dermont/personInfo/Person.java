@@ -1,5 +1,6 @@
 package com.dermont.personInfo;
 
+import com.dermont.exceptions.ProblematicTenantException;
 import com.dermont.residentialInfo.*;
 
 
@@ -54,13 +55,12 @@ public class Person {
                     }
                 });
     }
-    public void checkIfPersonIsResponsibleForRent(Residential residential) throws IllegalArgumentException, ProblematicTenantException {
+    public void checkIfPersonIsResponsibleForRent(Person person,Residential residential) throws IllegalArgumentException, ProblematicTenantException {
         if (checkHowManyRoomsRentOn(residential) > 5) {
             throw new IllegalArgumentException("Najemca wynajmuje za duzo pomieszczen na tym osiedlu");
         }
         if (checkHowManyDebbtHasOn(residential) > 3) {
-            throw new ProblematicTenantException("Osoba " + getFirstName() + " " + getLastName()
-                    + "posiadala juz najem pomieszczen: " + getRentedSpaces().toString());
+            throw new ProblematicTenantException(person);
         }
 
     }

@@ -1,12 +1,22 @@
 package com.dermont.storedItems;
 
+import com.dermont.residentialInfo.AreaSpace;
+
 public class Items {
     private String name;
-    private double occupiedArea;
+    private AreaSpace dimensions;
 
-    public Items(String name, double occupiedArea) {
+    public Items(String name, AreaSpace dimensions) {
         this.name = name;
-        this.occupiedArea = occupiedArea;
+        this.dimensions = new AreaSpace(dimensions.getLength(), dimensions.getWidth(), dimensions.getHeight());
+    }
+
+    @Override
+    public String toString() {
+        return "Items{" +
+                "name='" + name + '\'' +
+                ", dimensions=" + dimensions +
+                '}';
     }
 
     public String getName() {
@@ -17,11 +27,11 @@ public class Items {
         this.name = name;
     }
 
-    public double getOccupiedArea() {
-        return occupiedArea;
+    public AreaSpace getDimensions() {
+        return dimensions;
     }
 
-    public void setOccupiedArea(double occupiedArea) {
-        this.occupiedArea = occupiedArea;
+    public void setDimensions(AreaSpace dimensions) {
+        this.dimensions = dimensions;
     }
 }

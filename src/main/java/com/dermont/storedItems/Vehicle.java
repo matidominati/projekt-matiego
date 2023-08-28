@@ -1,9 +1,10 @@
 package com.dermont.storedItems;
 
-abstract class Vehicle extends Items {
-    public Vehicle(String name, double occupiedArea) {
-        super(name, occupiedArea);
-    }
+import com.dermont.residentialInfo.AreaSpace;
 
+abstract class Vehicle extends Items {
+    public Vehicle(String name, AreaSpace dimensions) {
+        super(name, dimensions);
+    }
 
 }

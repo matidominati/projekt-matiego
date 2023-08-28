@@ -1,12 +1,14 @@
 package com.dermont.storedItems;
 
+import com.dermont.residentialInfo.AreaSpace;
+
 public class OffroadVehicle extends CityVehicle{
     private boolean haveAllWheelDrive;
     private boolean haveOffRoadTires;
 
-    public OffroadVehicle(String name, double occupiedArea, String engineType, int numberOfDoors, boolean haveLPG,
+    public OffroadVehicle(String name, AreaSpace dimensions, String engineType, int numberOfDoors, boolean haveLPG,
                           double engineCapacity, double totalMass, boolean haveAllWheelDrive, boolean haveOffRoadTires) {
-        super(name, occupiedArea, engineType, numberOfDoors, haveLPG, engineCapacity, totalMass);
+        super(name, dimensions, engineType, numberOfDoors, haveLPG, engineCapacity, totalMass);
         this.haveAllWheelDrive = haveAllWheelDrive;
         this.haveOffRoadTires = haveOffRoadTires;
     }

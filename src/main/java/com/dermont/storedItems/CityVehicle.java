@@ -1,20 +1,23 @@
 package com.dermont.storedItems;
 
-public class CityVehicle extends Vehicle{
+import com.dermont.residentialInfo.AreaSpace;
+
+public class CityVehicle extends Vehicle {
     private String engineType;
     private int numberOfDoors;
     private boolean haveLPG;
     private double engineCapacity;
     private double totalMass;
 
-    public CityVehicle(String name, double occupiedArea, String engineType, int numberOfDoors, boolean haveLPG, double engineCapacity, double totalMass) {
-        super(name, occupiedArea);
+    public CityVehicle(String name, AreaSpace dimensions, String engineType, int numberOfDoors, boolean haveLPG, double engineCapacity, double totalMass) {
+        super(name, dimensions);
         this.engineType = engineType;
         this.numberOfDoors = numberOfDoors;
         this.haveLPG = haveLPG;
         this.engineCapacity = engineCapacity;
         this.totalMass = totalMass;
     }
+
 
     public String getEngineType() {
         return engineType;

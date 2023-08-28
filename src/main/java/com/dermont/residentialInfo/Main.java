@@ -1,21 +1,25 @@
 package com.dermont.residentialInfo;
 
+import com.dermont.exceptions.*;
 import com.dermont.personInfo.Address;
 import com.dermont.personInfo.Person;
+import com.dermont.storedItems.CityVehicle;
+import com.dermont.storedItems.Items;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws ProblematicTenantException {
-        ScannerMethods scannerMethods = new ScannerMethods();
+    public static void main(String[] args) throws ProblematicTenantException, TooManyThingsException, ItemToWideException, ItemToHighException, ItemTooLongException {
+        RentalService rentalService = new RentalService();
 
-        UsableAreaSpace smallFlat = new UsableAreaSpace(28);
-        UsableAreaSpace mediumFlat = new UsableAreaSpace(50);
-        UsableAreaSpace largeFlat = new UsableAreaSpace(85);
-        UsableAreaSpace smallParkingSpace = new UsableAreaSpace(8);
-        UsableAreaSpace mediumParkingSpace = new UsableAreaSpace(10);
-        UsableAreaSpace largeParkingSpace = new UsableAreaSpace(15);
+        AreaSpace smallFlat = new AreaSpace(28);
+        AreaSpace mediumFlat = new AreaSpace(50);
+        AreaSpace largeFlat = new AreaSpace(85);
+        AreaSpace smallParkingSpace = new AreaSpace(5, 1.8, 2.5);
+        AreaSpace mediumParkingSpace = new AreaSpace(8, 2.5, 2.5);
+        AreaSpace largeParkingSpace = new AreaSpace(10, 3, 2.5);
+
 
         Flat flat1 = new Flat(smallFlat, 10);
         Flat flat2 = new Flat(mediumFlat, 10);
@@ -61,6 +65,12 @@ public class Main {
         Person person5 = new Person("Urszula", "Nowak", "90121204171", "12.12.1990", adres5);
         Person person6 = new Person("Julia", "Pawlak", "86051304171", "13.05.1986", adres6);
 
+        AreaSpace bmwI3 = new AreaSpace(3, 1.6, 1.5);
+        CityVehicle cityVehicle1 = new CityVehicle("BMW", bmwI3, "petrol", 2, false, 999.3, 1250);
+
+        AreaSpace item1 = new AreaSpace(0.1, 0.1, 0.1);
+        Items item = new Items("wihajster", item1);
+
         osiedle1.getTenants().add(person1);
         osiedle1.getTenants().add(person2);
         osiedle1.getTenants().add(person3);
@@ -72,20 +82,41 @@ public class Main {
         flat2.addTenant(person1, flat2);
         flat3.addTenant(person2, flat3);
         flat4.addTenant(person3, flat4);
-        parkingSpace1.rentParkingSpace(person1,parkingSpace1);
-        parkingSpace2.rentParkingSpace(person1,parkingSpace2);
-        parkingSpace3.rentParkingSpace(person2,parkingSpace3);
-        parkingSpace4.rentParkingSpace(person3,parkingSpace4);
+        parkingSpace1.rentParkingSpace(person1, parkingSpace1);
+        parkingSpace1.addItem(cityVehicle1);
+        parkingSpace1.addItem(item);
+        parkingSpace2.rentParkingSpace(person1, parkingSpace2);
+        parkingSpace3.rentParkingSpace(person2, parkingSpace3);
+        parkingSpace4.rentParkingSpace(person3, parkingSpace4);
 
 
-        Person selectedPerson = scannerMethods.printMenuListOfUsers(osiedle1);
-        scannerMethods.handleUserMenu(selectedPerson, osiedle1);
+        Person selectedPerson = rentalService.printMenuListOfUsers(osiedle1);
+        rentalService.handleUserMenu(selectedPerson, osiedle1);
+
+
+//        parkingSpace1.addItem(item);
+//        System.out.println(parkingSpace1.getStoredItems());
+//        parkingSpace1.removeItem(item);
+//        System.out.println(parkingSpace1.getStoredItems());
+
+//        flat1.addTenant(person2, flat1); // dodaje Mostowiaka
+//        flat1.addTenant(person3,flat1); // dodaje Kapuste
+//        System.out.println(flat1.getTenants()); // oczekiwane 3 lokatorow
+//        flat1.removeMainTenant(person1); // usuwam Dybale z roli szefa
+//        flat1.removeTenant(person3,flat1); // usuwam Kapuste z mieszkania
+//        flat1.addTenant(person6,flat1); // dodaje Pawlak
+//
+//        System.out.println(flat1.getMainTenant()); // sprawdzam szefa: oczekiwany Mostowiak
+//        flat1.removeTenant(person2, flat1); // usuwam Mostowiaka z roli szefa
+//        System.out.println(flat1.getMainTenant()); // sprawdzam szefa: oczekiwana Pawlak
 
 
     }
 
 
 }
+
+
 
 
 
