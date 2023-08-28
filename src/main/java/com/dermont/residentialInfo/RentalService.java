@@ -153,7 +153,7 @@ public class RentalService {
     public void checkIfPersonRentSpaceToShowContents(Person selectedPerson, Residential residential) {
         Space selectedSpace = selectSpaceByIdIfExist(residential);
         if (selectedPerson.getRentedSpaces().contains(selectedSpace)) {
-            selectedSpace.displaySpaceContents(selectedSpace);
+            selectedSpace.displaySpaceContents();
         } else {
             System.out.println(selectedPerson.getFirstName() + " " + selectedPerson.getLastName() +
                     " nie wynajmuje pomieszczenia o podanym ID!");
@@ -210,20 +210,13 @@ public class RentalService {
             case 2:
                 displayRentedSpacesAndContents(selectedPerson, residential);
                 checkTypeOfSpaceToAddSomething(residential);
-
-//                System.out.println("Wybierz co chcesz zrobic:");
-//                System.out.println("1 - dodaj przedmiot/pojazd do wybranego pomieszczenia");
-//                System.out.println("2 - usun przedmiot/pojazd z wybranego pomieszczenia");
-//                System.out.println("9 - powrot");
-//                System.out.println("0 - zamknij program");
                 int innerOption = scanner.nextInt();
                 switch (innerOption) {
                     case 0:
                         exitProgram();
                         break;
                     case 1:
-//                        Space selectedSpace = selectSpaceByIdIfExist(residential);
-//                        if (selectedSpace instanceof ParkingSpace) {
+
                         System.out.println("Wybierz co chcesz dodac:");
                         System.out.println("1 - amfibia");
                         System.out.println("2 - lodz");

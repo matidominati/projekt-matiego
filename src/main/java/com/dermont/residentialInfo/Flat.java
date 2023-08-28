@@ -1,6 +1,11 @@
 package com.dermont.residentialInfo;
 
+import com.dermont.exceptions.ItemToHighException;
+import com.dermont.exceptions.ItemToWideException;
+import com.dermont.exceptions.ItemTooLongException;
+import com.dermont.exceptions.TooManyThingsException;
 import com.dermont.personInfo.Person;
+import com.dermont.storedItems.Items;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,10 +22,29 @@ public class Flat extends Space {
 
     }
 
-    public void addTenant(Person newTenant, Flat flat) {
+    @Override
+    public boolean isSpaceAvailable() {
+        return getRentalEndDate() == null && getTenants().size() < getMaxNumberOfTenants();
+    }
+
+    @Override
+    public void displaySpaceContents() {
+        System.out.print("Ilość lokatorow w mieszkaniu " + getId() + ": ");
+        System.out.println(getTenants().size());
+        System.out.println(getTenants().toString());
+        System.out.println("Glowny najemca" + getMainTenant());
+    }
+
+    @Override
+    public boolean isRentalExpired() {
+        return getRentalEndDate() != null && getRentalEndDate().isBefore(LocalDate.now());
+    }
+
+    @Override
+    public void addTenant(Person newTenant, Space space) {
         if (getTenants().size() < maxNumberOfTenants) {
             getTenants().add(newTenant);
-            newTenant.getRentedSpaces().add(flat);
+            newTenant.getRentedSpaces().add(space);
             if (getTenants().size() == 1) {
                 setMainTenant(newTenant);
                 setRentalStartDate(LocalDate.now());
@@ -31,18 +55,20 @@ public class Flat extends Space {
         }
     }
 
-    public void removeTenant(Person tenantToRemove, Flat flat) {
+    @Override
+    public void removeTenant(Person tenantToRemove, Space space) {
         if (!getTenants().contains(tenantToRemove)) {
             throw new IllegalArgumentException("Podana osoba nie jest lokatorem tego mieszkania");
         } else {
             getTenants().remove(tenantToRemove);
-            tenantToRemove.removeRentedRoom(flat);
+            tenantToRemove.removeRentedRoom(space);
             setMainTenant(getTenants().stream()
                     .findFirst()
                     .orElse(null));
         }
     }
 
+    @Override
     public void removeMainTenant(Person tenantToRemove) {
         if (getMainTenant() != null && tenantToRemove.equals(getMainTenant())) {
             getTenants().remove(tenantToRemove);
@@ -54,6 +80,51 @@ public class Flat extends Space {
         }
     }
 
+
+    @Override
+    public void rentParkingSpace(Person newTenant, Space space) {
+
+    }
+
+    @Override
+    public void addItem(Items item) throws TooManyThingsException, ItemToWideException, ItemToHighException, ItemTooLongException {
+
+    }
+
+    @Override
+    public void removeItem(Items item) {
+
+    }
+
+    @Override
+    public boolean checkDimensionsOfItem(Items item) throws ItemTooLongException, ItemToWideException, ItemToHighException {
+        return false;
+    }
+
+    @Override
+    public boolean checkFreeSpaceForItem(Items item) {
+        return false;
+    }
+
+    @Override
+    public boolean checkIfItemIsNotTooWide(Items item) {
+        return false;
+    }
+
+    @Override
+    public boolean checkIfItemIsNotTooHigh(Items item) {
+        return false;
+    }
+
+    @Override
+    public boolean checkIfItemIsNotTooLong(Items item) {
+        return false;
+    }
+
+    @Override
+    public double calculateOccupiedArea(List<Items> items) {
+        return 0;
+    }
 
     public List<Person> getTenants() {
         return tenants;

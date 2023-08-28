@@ -21,17 +21,17 @@ public class Main {
         AreaSpace largeParkingSpace = new AreaSpace(10, 3, 2.5);
 
 
-        Flat flat1 = new Flat(smallFlat, 10);
-        Flat flat2 = new Flat(mediumFlat, 10);
-        Flat flat3 = new Flat(mediumFlat, 10);
-        Flat flat4 = new Flat(mediumFlat, 10);
-        Flat flat5 = new Flat(largeFlat, 10);
-        Flat flat6 = new Flat(largeFlat, 10);
-        ParkingSpace parkingSpace1 = new ParkingSpace(smallParkingSpace);
-        ParkingSpace parkingSpace2 = new ParkingSpace(smallParkingSpace);
-        ParkingSpace parkingSpace3 = new ParkingSpace(mediumParkingSpace);
-        ParkingSpace parkingSpace4 = new ParkingSpace(largeParkingSpace);
-        ParkingSpace parkingSpace5 = new ParkingSpace(mediumParkingSpace);
+        Space flat1 = new Flat(smallFlat, 1);
+        Space flat2 = new Flat(mediumFlat, 1);
+        Space flat3 = new Flat(mediumFlat, 1);
+        Space flat4 = new Flat(mediumFlat, 1);
+        Space flat5 = new Flat(largeFlat, 1);
+        Space flat6 = new Flat(largeFlat, 1);
+        Space parkingSpace1 = new ParkingSpace(smallParkingSpace);
+        Space parkingSpace2 = new ParkingSpace(smallParkingSpace);
+        Space parkingSpace3 = new ParkingSpace(mediumParkingSpace);
+        Space parkingSpace4 = new ParkingSpace(largeParkingSpace);
+        Space parkingSpace5 = new ParkingSpace(mediumParkingSpace);
 
         List<Space> spacesBlock1 = new ArrayList<>();
         spacesBlock1.add(flat1);
@@ -92,6 +92,7 @@ public class Main {
 
         Person selectedPerson = rentalService.printMenuListOfUsers(osiedle1);
         rentalService.handleUserMenu(selectedPerson, osiedle1);
+
 
 
 //        parkingSpace1.addItem(item);

@@ -1,12 +1,17 @@
 package com.dermont.residentialInfo;
 
+import com.dermont.exceptions.ItemToHighException;
+import com.dermont.exceptions.ItemToWideException;
+import com.dermont.exceptions.ItemTooLongException;
+import com.dermont.exceptions.TooManyThingsException;
 import com.dermont.personInfo.Person;
+import com.dermont.storedItems.Items;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Space {
+public abstract class Space {
 
     private static int flatIdCounter = 1;
     private static int parkingIdCounter = 1;
@@ -38,34 +43,30 @@ public class Space {
         }
     }
 
+    // shared
+    public abstract boolean isSpaceAvailable();
 
-    public boolean isSpaceAvailable(Space space) {
-        if (space instanceof Flat) {
-            Flat flat = (Flat) space;
-            return space.getRentalEndDate() == null && flat.getTenants().size() < flat.getMaxNumberOfTenants();
-        }
-        return space.getRentalEndDate() == null;
-    }
+    public abstract void displaySpaceContents();
 
-    public void displaySpaceContents(Space space) {
-        if (space instanceof Flat) {
-            Flat flat = (Flat) space;
-            System.out.print("Ilość lokatorow w mieszkaniu " + flat.getId() + ": ");
-            System.out.println(flat.getTenants().size());
-            System.out.println(flat.getTenants().toString());
-            System.out.println("Glowny najemca" + flat.getMainTenant());
-        }
-        if (space instanceof ParkingSpace) {
-            ParkingSpace parkingSpace = (ParkingSpace) space;
-            System.out.println("Zawartosc miejsca parkignowego " + parkingSpace.getId() + ": ");
-            System.out.println(parkingSpace.getStoredItems().toString());
-        }
-    }
+    public abstract boolean isRentalExpired();
+
+    // parkingSpace
+    public abstract void rentParkingSpace(Person newTenant, Space space);
+    public abstract void addItem(Items item) throws TooManyThingsException, ItemToWideException, ItemToHighException, ItemTooLongException;
+    public abstract void removeItem(Items item);
+    public abstract boolean checkDimensionsOfItem(Items item) throws ItemTooLongException, ItemToWideException, ItemToHighException;
+    public abstract boolean checkFreeSpaceForItem(Items item);
+    public abstract boolean checkIfItemIsNotTooWide(Items item);
+    public abstract boolean checkIfItemIsNotTooHigh(Items item);
+    public abstract boolean checkIfItemIsNotTooLong(Items item);
+    public abstract double calculateOccupiedArea(List<Items> items);
 
 
-    public boolean isRentalExpired() {
-        return rentalEndDate != null && rentalEndDate.isBefore(LocalDate.now());
-    }
+    // flat
+    public abstract void addTenant(Person person, Space space);
+    public abstract void removeTenant(Person tenantToRemove, Space space);
+    public abstract void removeMainTenant(Person tenantToRemove);
+
 
     public static int getFlatIdCounter() {
         return flatIdCounter;
@@ -150,4 +151,6 @@ public class Space {
                 ", tenants=" + tenants +
                 '}';
     }
+
+
 }

@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 public class Residential {
     private String residentialName;
-    private List<House> houses;
-    private List<Person> tenants = new ArrayList<>();
+    private List<Block> blocks;
+    private List<Person> tenants = new ArrayList<>(); //TODO czy to potrzebne? Dwie drogi dojscia, lista albo na biezaco na podstawie housow budowanie takiej listy
 
 
     public Residential(String residentialName, List<Block> blocks) {
@@ -31,17 +31,18 @@ public class Residential {
 
         System.out.println("Miejsca pakrkingowe:");
         getAvailableParkingSpaces().stream()
-                        .forEach(parkingSpace -> System.out.println(" " + parkingSpace.getId()));
+                .forEach(parkingSpace -> System.out.println(" " + parkingSpace.getId()));
         System.out.println("Mieszkania:");
         getAvailableFlats().stream()
                 .forEach(flat -> System.out.println((" " + flat.getId())));
 
 
     }
+
     public List<Space> getAvailableSpace() {
         return getBlocks().stream()
                 .flatMap(block -> block.getSpaces().stream())
-                .filter(space -> space.isSpaceAvailable(space))
+                .filter(space -> space.isSpaceAvailable())
                 .collect(Collectors.toList());
     }
 
@@ -58,7 +59,7 @@ public class Residential {
     }
 
 
-    public void addHouse(Block block) {
+    public void addBlock(Block block) {
         blocks.add(block);
     }
 
