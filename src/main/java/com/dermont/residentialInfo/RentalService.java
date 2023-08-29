@@ -7,30 +7,12 @@ import com.dermont.storedItems.Items;
 import java.util.Scanner;
 
 public class RentalService {
+    Menu menu = new Menu();
 
-    public void printTopMenu() {
-        System.out.println("******************* MENU *******************");
-        System.out.println("");
-    }
+    Scanner scannerInt = new Scanner(System.in);
+    Scanner scannerString = new Scanner(System.in);
 
-    public void printExitMenu() {
-        System.out.println("0 - Wyjscie z programu");
-    }
-
-
-    public void reverseOrExit() {
-        System.out.println("");
-        System.out.println("9 - Powrot");
-        printExitMenu();
-    }
-
-    public void exitProgram() {
-        System.out.println("Zamykanie programu...");
-        System.exit(0);
-
-    }
-
-    public void printAvaiablePerson(Residential residential) {
+    public void displayAvaiablePerson(Residential residential) {
         System.out.println("Dostepne osoby: ");
         System.out.println("");
         residential.getTenants().forEach(person -> {
@@ -38,120 +20,139 @@ public class RentalService {
         });
     }
 
-    public Person printMenuListOfUsers(Residential residential) {
-
-        printTopMenu();
-        printAvaiablePerson(residential);
-        printExitMenu();
-        Scanner scanner = new Scanner(System.in);
+    public Person displayListOfUsers(Residential residential, Scanner scannerInt) {
+        menu.printTopMenu();
+        displayAvaiablePerson(residential);
+        menu.printExitMenu();
         Person selectedPerson = null;
-        System.out.println("Wybierz osobe (podaj ID) lub zamknij program: ");
-        int selectedPersonID = scanner.nextInt();
-
-        if (selectedPersonID == 0) {
-            exitProgram();
-            return null;
-        } else {
-            selectedPerson = residential.findPersonByID(selectedPersonID);
-            if (selectedPerson == null) {
-                System.out.println("Nie znaleziono osoby o podanym ID!");
+        boolean personNotFound = true;
+        while (personNotFound) {
+            System.out.println("");
+            System.out.println("Wybierz osobe (podaj ID) lub zamknij program: ");
+            int selectedPersonID = scannerInt.nextInt();
+            if (selectedPersonID == 0) {
+                menu.exitProgram();
+                return null;
+            } else {
+                selectedPerson = residential.findPersonByID(selectedPersonID);
+                if (selectedPerson == null) {
+                    System.out.println("Nie znaleziono osoby o podanym ID! Wybierz osobe z listy ponizej:");
+                    displayAvaiablePerson(residential);
+                } else {
+                    personNotFound = false;
+                }
             }
-            return selectedPerson;
+        }
+        return selectedPerson;
+    }
+
+    public void chooseWhatToDisplayElse(Person selectedPerson, Residential residential) throws ProblematicTenantException, ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException {
+        int reverseSelectionOption;
+        reverseSelectionOption = scannerInt.nextInt();
+        if (reverseSelectionOption == 0) {
+            menu.exitProgram();
+        } else if (reverseSelectionOption == 9) {
+            menu.printPersonOptionMenu();
+            menu.reverseOrExit();
+            chooseWhatToDisplayMenuAfterPersonID(selectedPerson, residential, scannerInt);
+            chooseWhatToDisplayElse(selectedPerson, residential);
+
+        } else {
+            System.out.println("Nieznana opcja.");
+            System.out.println("");
+            menu.printPersonOptionMenu();
+            chooseWhatToDisplayMenuAfterPersonID(selectedPerson, residential, scannerInt);
+
         }
     }
 
-    public void handleUserMenu(Person selectedPerson, Residential residential) throws ProblematicTenantException, ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException {
-        printTopMenu();
-        Scanner scanner = new Scanner(System.in);
+    public void chooseWhatToDisplayMenuAfterPersonID(Person selectedPerson, Residential residential, Scanner scannerInt) throws ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException, ProblematicTenantException {
         int selectedOption;
-        if (selectedPerson.checkHowManyDebbtHasOn(residential) > 3) {
-            System.out.println("UWAGA! WYBRANA OSOBA POSIADA ZALEGLE NAJMY!");
-        }
-        System.out.println("Wybrana osoba: " + selectedPerson.getFirstName() + " " + selectedPerson.getLastName());
-        System.out.println("Wybierz co chcesz zrobic:");
-        System.out.println("1 - Wyswietl informacje");
-        System.out.println("2 - wyswietl wolne pomieszczenia");
-        System.out.println("3 - Wynajmij nowe pomieszczenie");
-        reverseOrExit();
-        selectedOption = scanner.nextInt();
-
+        selectedOption = scannerInt.nextInt();
         switch (selectedOption) {
             case 0:
-                exitProgram();
+                menu.exitProgram();
                 break;
             case 1:
                 System.out.println("INFORMACJE:");
-                personInfo(selectedPerson, residential);
+                personInfo(selectedPerson, residential, scannerInt);
+                menu.reverseOrExit();
+                chooseWhatToDisplayElse(selectedPerson, residential);
                 break;
             case 2:
                 System.out.println("WOLNE POMIESZCZENIA");
                 displayRoomsForRent(residential);
+                menu.reverseOrExit();
+                chooseWhatToDisplayElse(selectedPerson, residential);
+                menu.reverseOrExit();
                 break;
             case 3:
                 System.out.println("WYNAJMIJ POMIESZCZENIA");
                 selectedPerson.checkIfPersonIsResponsibleForRent(selectedPerson, residential);
                 rentSpaceByOn(selectedPerson, residential);
+                menu.reverseOrExit();
+                chooseWhatToDisplayElse(selectedPerson, residential);
+                menu.reverseOrExit();
                 break;
             case 9:
-                Person selectedAnotherPerson = printMenuListOfUsers(residential);
-                handleUserMenu(selectedAnotherPerson, residential);
+                Person selectedPersonDummy = displayListOfUsers(residential, scannerInt);
+                handleUserMenu(selectedPersonDummy, residential);
                 break;
             default:
-                System.out.println("Nieprawidlowy wybor. Sprobuj ponownie");
+                System.out.println("Nieprawidlowy wybor. Wybierz z ponizszych opcji:");
+                handleUserMenu(selectedPerson, residential);
+                break;
+
         }
-
-
     }
 
+    public void handleUserMenu(Person selectedPerson, Residential residential) throws ProblematicTenantException, ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException {
+        if (selectedPerson.checkHowManyDebbtHasOn(residential) > 3) {
+            System.out.println("UWAGA! WYBRANA OSOBA POSIADA ZALEGLE NAJMY!");
+        }
+        System.out.println("Wybrana osoba: " + selectedPerson.getFirstName() + " " + selectedPerson.getLastName());
+        menu.printPersonOptionMenu();
+        menu.reverseOrExit();
+        chooseWhatToDisplayMenuAfterPersonID(selectedPerson, residential, scannerInt);
+    }
     public void rentSpaceByOn(Person selectedPerson, Residential residential) throws ProblematicTenantException {
         if (residential.getAvailableSpace().size() > 0) {
             selectedPerson.checkIfPersonIsResponsibleForRent(selectedPerson, residential);
             System.out.println("WYBIERZ POMIESZCZENIE, KTORE CHCESZ WYNAJAC (PODAJ ID):");
             displayRoomsForRent(residential);
             checkTypeOfSpaceForRent(selectedPerson, residential);
-
         }
     }
-
     public void checkTypeOfSpaceForRent(Person selectedPerson, Residential residential) {
-        Space selectedSpace = selectSpaceByIdIfAvailable(residential);
+        Space selectedSpace = selectSpaceByIdIfAvailable(residential, scannerString);
         if (selectedSpace instanceof Flat) {
-            ((Flat) selectedSpace).addTenant(selectedPerson, (Flat) selectedSpace);
+            selectedSpace.addTenant(selectedPerson,selectedSpace);
             System.out.println("Poprawnie wynajeto mieszkanie");
         } else if (selectedSpace instanceof ParkingSpace) {
-            ((ParkingSpace) selectedSpace).rentParkingSpace(selectedPerson, (ParkingSpace) selectedSpace);
+            selectedSpace.rentParkingSpace(selectedPerson, selectedSpace);
             System.out.println("Poprawnie wynajeto miejsce parkingowe");
         } else {
             System.out.println("Błędne ID pomieszczenia");
         }
-
     }
 
-
-    public Space selectSpaceByIdIfAvailable(Residential residential) {
-        Scanner scanner = new Scanner(System.in);
-        String selectedSpaceId = scanner.nextLine().toUpperCase();
+    public Space selectSpaceByIdIfAvailable(Residential residential, Scanner scannerString) {
+        String selectedSpaceId = scannerString.nextLine().toUpperCase();
         return residential.getAvailableSpace().stream()
                 .filter(space -> selectedSpaceId.equals(space.getId()))
                 .findFirst()
                 .orElse(null);
     }
-
-    public Space selectSpaceByIdIfExist(Residential residential) {
-        Scanner scanner = new Scanner(System.in);
-        String selectedSpaceId = scanner.nextLine().toUpperCase();
+    public Space selectSpaceByIdIfExist(Residential residential, Scanner scannerString) {
+        String selectedSpaceId = scannerString.nextLine().toUpperCase();
         return residential.getBlocks().stream()
                 .flatMap(block -> block.getSpaces().stream())
                 .filter(space -> selectedSpaceId.equals(space.getId()))
                 .findFirst()
                 .orElse(null);
     }
-
-
-
-
     public void checkIfPersonRentSpaceToShowContents(Person selectedPerson, Residential residential) {
-        Space selectedSpace = selectSpaceByIdIfExist(residential);
+        Space selectedSpace = selectSpaceByIdIfExist(residential, scannerString);
         if (selectedPerson.getRentedSpaces().contains(selectedSpace)) {
             selectedSpace.displaySpaceContents();
         } else {
@@ -159,49 +160,25 @@ public class RentalService {
                     " nie wynajmuje pomieszczenia o podanym ID!");
         }
     }
-
     public void checkTypeOfSpaceToAddSomething(Residential residential) {
-        Space selectedSpace = selectSpaceByIdIfExist(residential);
+        Space selectedSpace = selectSpaceByIdIfExist(residential, scannerInt);
         if (selectedSpace instanceof Flat) {
-            AddToFlat();
+            menu.printAddToFlatMenu();
         } else if (selectedSpace instanceof ParkingSpace) {
-            AddToParkingSpace();
+            menu.printAddToParkingSpaceMenu();
         } else {
             System.out.println("Błędne ID pomieszczenia");
         }
 
     }
-
-    public void AddToFlat() {
-        System.out.println("Wybierz co chcesz zrobic:");
-        System.out.println("1 - dodaj lokatora do wybranego mieszkania");
-        System.out.println("2 - usun lokatora z wybranego mieszkania");
-        System.out.println("9 - powrot");
-        System.out.println("0 - zamknij program");
-    }
-
-    public void AddToParkingSpace() {
-        System.out.println("Wybierz co chcesz zrobic:");
-        System.out.println("1 - dodaj przedmiot/pojazd do wybranego pomieszczenia");
-        System.out.println("2 - usun przedmiot/pojazd z wybranego pomieszczenia");
-        System.out.println("9 - powrot");
-        System.out.println("0 - zamknij program");
-
-    }
-
-    public void personInfo(Person selectedPerson, Residential residential) throws ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException {
-        Scanner scanner = new Scanner(System.in);
+    public void personInfo(Person selectedPerson, Residential residential, Scanner scannerInt) throws ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException, ProblematicTenantException {
+        menu.printPersonInfoMenu();
+        menu.reverseOrExit();
         int selectedOption;
-        System.out.println("Wybierz co chcesz zrobic:");
-        System.out.println("1 - Wyświetl dane personalne");
-        System.out.println("2 - Wyswietl wynajmowane pomieszczenia");
-        System.out.println("3 - Sprawdz ilosc przeterminowanych najmow");
-        System.out.println("");
-        reverseOrExit();
-        selectedOption = scanner.nextInt();
+        selectedOption = scannerInt.nextInt();
         switch (selectedOption) {
             case 0:
-                exitProgram();
+                menu.exitProgram();
                 break;
             case 1:
                 System.out.println("DANE PERSONALNE");
@@ -210,25 +187,22 @@ public class RentalService {
             case 2:
                 displayRentedSpacesAndContents(selectedPerson, residential);
                 checkTypeOfSpaceToAddSomething(residential);
-                int innerOption = scanner.nextInt();
+                int innerOption = scannerInt.nextInt();
                 switch (innerOption) {
                     case 0:
-                        exitProgram();
+                        menu.exitProgram();
                         break;
                     case 1:
-
-                        System.out.println("Wybierz co chcesz dodac:");
-                        System.out.println("1 - amfibia");
-                        System.out.println("2 - lodz");
-                        System.out.println("3 - samochod miejski");
-                        System.out.println("4 - samochod terenowy");
-                        System.out.println("5 - motocykl");
-                        System.out.println("6 - inny przedmiot");
-//                            createItem(selectedSpace);
-
-//                        }
-
-
+                        menu.printListOfItemsToAddMenu();
+                        int itemOption = scannerInt.nextInt();
+                        switch (itemOption) {
+                            case 0:
+                                menu.exitProgram();
+                                break;
+                            case 6:
+//                                createItem;
+                                break;
+                        }
                         break;
                     case 9:
                         displayRentedSpacesAndContents(selectedPerson, residential);
@@ -240,8 +214,16 @@ public class RentalService {
                 System.out.println("ILOSC PRZETERMINOWANYCH NAJMOW:");
                 System.out.println(selectedPerson.checkHowManyDebbtHasOn(residential));
                 break;
+            case 9:
+                menu.printPersonOptionMenu();
+                menu.reverseOrExit();
+                chooseWhatToDisplayMenuAfterPersonID(selectedPerson, residential, scannerInt);
+
+                break;
             default:
                 System.out.println("Nieprawidlowy wybor. Sprobuj ponownie");
+                personInfo(selectedPerson, residential, scannerInt);
+                break;
 
         }
     }

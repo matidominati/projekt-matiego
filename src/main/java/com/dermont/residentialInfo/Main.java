@@ -8,9 +8,11 @@ import com.dermont.storedItems.Items;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws ProblematicTenantException, TooManyThingsException, ItemToWideException, ItemToHighException, ItemTooLongException {
+        Scanner scannerMain = new Scanner(System.in);
         RentalService rentalService = new RentalService();
 
         AreaSpace smallFlat = new AreaSpace(28);
@@ -90,7 +92,7 @@ public class Main {
         parkingSpace4.rentParkingSpace(person3, parkingSpace4);
 
 
-        Person selectedPerson = rentalService.printMenuListOfUsers(osiedle1);
+        Person selectedPerson = rentalService.displayListOfUsers(osiedle1, scannerMain);
         rentalService.handleUserMenu(selectedPerson, osiedle1);
 
 

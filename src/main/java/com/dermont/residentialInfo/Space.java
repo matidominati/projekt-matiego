@@ -133,13 +133,6 @@ public abstract class Space {
         Space.parkingIdCounter = parkingIdCounter;
     }
 
-    public AreaSpace getDimensionsDummy() {
-        return dimensionsDummy;
-    }
-
-    public void setDimensionsDummy(AreaSpace dimensionsDummy) {
-        this.dimensionsDummy = dimensionsDummy;
-    }
 
     @Override
     public String toString() {
