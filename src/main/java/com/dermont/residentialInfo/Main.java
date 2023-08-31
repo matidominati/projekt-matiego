@@ -91,7 +91,7 @@ public class Main {
         parkingSpace3.rentParkingSpace(person2, parkingSpace3);
         parkingSpace4.rentParkingSpace(person3, parkingSpace4);
 
-
+//
         Person selectedPerson = rentalService.displayListOfUsers(osiedle1, scannerMain);
         rentalService.handleUserMenu(selectedPerson, osiedle1);
 

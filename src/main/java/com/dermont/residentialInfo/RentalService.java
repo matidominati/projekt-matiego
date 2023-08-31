@@ -1,3 +1,6 @@
+//TODO napisac metode, ktora po wybraniu rodzaju pomieszczenia -> wybrania opcji/usuniecia
+// -- sprawdzila typ pomieszczenia i w zaleznosci od tego kontynuowala swoje dzialania (linijka 194++)
+
 package com.dermont.residentialInfo;
 
 import com.dermont.exceptions.*;
@@ -8,7 +11,6 @@ import java.util.Scanner;
 
 public class RentalService {
     Menu menu = new Menu();
-
     Scanner scannerInt = new Scanner(System.in);
     Scanner scannerString = new Scanner(System.in);
 
@@ -151,7 +153,7 @@ public class RentalService {
                 .findFirst()
                 .orElse(null);
     }
-    public void checkIfPersonRentSpaceToShowContents(Person selectedPerson, Residential residential) {
+    public Space checkIfPersonRentSpaceToShowContents(Person selectedPerson, Residential residential) {
         Space selectedSpace = selectSpaceByIdIfExist(residential, scannerString);
         if (selectedPerson.getRentedSpaces().contains(selectedSpace)) {
             selectedSpace.displaySpaceContents();
@@ -159,15 +161,16 @@ public class RentalService {
             System.out.println(selectedPerson.getFirstName() + " " + selectedPerson.getLastName() +
                     " nie wynajmuje pomieszczenia o podanym ID!");
         }
+        return selectedSpace;
     }
-    public void checkTypeOfSpaceToAddSomething(Residential residential) {
-        Space selectedSpace = selectSpaceByIdIfExist(residential, scannerInt);
+    public void checkTypeOfSpaceToAddSomething(Person selectedPerson, Residential residential) {
+        System.out.println("");
+        System.out.println("Aby dodac lub usunac z pomieszczenia ponownie wpisz ID: ");
+        Space selectedSpace = checkIfPersonRentSpaceToShowContents(selectedPerson,residential);
         if (selectedSpace instanceof Flat) {
             menu.printAddToFlatMenu();
         } else if (selectedSpace instanceof ParkingSpace) {
             menu.printAddToParkingSpaceMenu();
-        } else {
-            System.out.println("Błędne ID pomieszczenia");
         }
 
     }
@@ -186,7 +189,7 @@ public class RentalService {
                 break;
             case 2:
                 displayRentedSpacesAndContents(selectedPerson, residential);
-                checkTypeOfSpaceToAddSomething(residential);
+                checkTypeOfSpaceToAddSomething(selectedPerson, residential);
                 int innerOption = scannerInt.nextInt();
                 switch (innerOption) {
                     case 0:
@@ -243,6 +246,7 @@ public class RentalService {
             checkIfPersonRentSpaceToShowContents(selectedPerson, residential);
 
         }
+
     }
 
 
