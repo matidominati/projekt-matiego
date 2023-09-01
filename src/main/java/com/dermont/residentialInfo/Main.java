@@ -1,5 +1,9 @@
-package com.dermont.residentialInfo;
+//TODO brakuje: zapisywania stanu osiedla do pliku, ale sprawdzona poprawnosc zapisywania w pamieci podrecznej - dziala
+//TODO brakuje: dodawania/usuwania niektorych przedmiotow -> metody są napiasne, ale jeszcze nie zaimplementowane w scannera. Na sucho dzialaja (zakomentowane 102-117)
 
+
+
+package com.dermont.residentialInfo;
 import com.dermont.exceptions.*;
 import com.dermont.personInfo.Address;
 import com.dermont.personInfo.Person;
@@ -23,12 +27,12 @@ public class Main {
         AreaSpace largeParkingSpace = new AreaSpace(10, 3, 2.5);
 
 
-        Space flat1 = new Flat(smallFlat, 1);
-        Space flat2 = new Flat(mediumFlat, 1);
-        Space flat3 = new Flat(mediumFlat, 1);
-        Space flat4 = new Flat(mediumFlat, 1);
-        Space flat5 = new Flat(largeFlat, 1);
-        Space flat6 = new Flat(largeFlat, 1);
+        Space flat1 = new Flat(smallFlat, 2);
+        Space flat2 = new Flat(mediumFlat, 3);
+        Space flat3 = new Flat(mediumFlat, 3);
+        Space flat4 = new Flat(mediumFlat, 3);
+        Space flat5 = new Flat(largeFlat, 4);
+        Space flat6 = new Flat(largeFlat, 4);
         Space parkingSpace1 = new ParkingSpace(smallParkingSpace);
         Space parkingSpace2 = new ParkingSpace(smallParkingSpace);
         Space parkingSpace3 = new ParkingSpace(mediumParkingSpace);
@@ -91,12 +95,12 @@ public class Main {
         parkingSpace3.rentParkingSpace(person2, parkingSpace3);
         parkingSpace4.rentParkingSpace(person3, parkingSpace4);
 
-//
+
         Person selectedPerson = rentalService.displayListOfUsers(osiedle1, scannerMain);
         rentalService.handleUserMenu(selectedPerson, osiedle1);
 
 
-
+        /// Te metody dzialaja
 //        parkingSpace1.addItem(item);
 //        System.out.println(parkingSpace1.getStoredItems());
 //        parkingSpace1.removeItem(item);

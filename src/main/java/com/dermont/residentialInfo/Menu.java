@@ -41,10 +41,10 @@ public class Menu {
     public void printListOfItemsToAddMenu(){
         System.out.println("Wybierz co chcesz dodac:");
         System.out.println("1 - amfibia");
-        System.out.println("2 - lodz");
-        System.out.println("3 - samochod miejski");
-        System.out.println("4 - samochod terenowy");
-        System.out.println("5 - motocykl");
+        System.out.println("2 - lodz --> niedokonczone");
+        System.out.println("3 - samochod miejski --> niedokonczone");
+        System.out.println("4 - samochod terenowy ->> niedokonczone");
+        System.out.println("5 - motocykl ->> niedokonczone");
         System.out.println("6 - inny przedmiot");
     }
 

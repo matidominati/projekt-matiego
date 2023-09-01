@@ -1,12 +1,8 @@
 package com.dermont.personInfo;
 
-import com.dermont.exceptions.ProblematicTenantException;
-import com.dermont.residentialInfo.*;
-
+import com.dermont.residentialInfo.Space;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,53 +25,6 @@ public class Person {
         this.id = idCounter++;
     }
 
-    public long checkHowManyRoomsRentOn(Residential residential) {/// przyjmuje ze nie chodzi o mainTenant tylko ogolnie o lokatora
-        return residential.getBlocks().stream()
-                .flatMap(block -> block.getSpaces().stream())
-                .filter(space -> space.getTenants().contains(this))
-                .count();
-    }
-
-    public long checkHowManyDebbtHasOn(Residential residential) {
-        return DebbtInfo.stream()
-                .filter(infoFIle -> infoFIle.getName().contains(residential.getResidentialName()))
-                .count();
-    }
-    public void checkRentalExpiration(Residential residential) {
-        rentedSpaces.stream()
-                .filter(space -> space.isRentalExpired())
-                .forEach(space -> {
-                    String info = "Umowa zakonczenia najmu dobiegla konca dla pomieszczenia o ID: " + space.getId();
-                    File infoFile = new File("Debbt" + residential.getResidentialName() + space.getId() + ".txt");
-                    try (PrintWriter writer = new PrintWriter(infoFile)) {
-                        writer.println(info);
-                        getDebbtInfo().add(infoFile);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-    }
-    public void checkIfPersonIsResponsibleForRent(Person person,Residential residential) throws IllegalArgumentException, ProblematicTenantException {
-        if (checkHowManyRoomsRentOn(residential) > 5) {
-            throw new IllegalArgumentException("Najemca wynajmuje za duzo pomieszczen na tym osiedlu");
-        }
-        if (checkHowManyDebbtHasOn(residential) > 3) {
-            throw new ProblematicTenantException(person);
-        }
-
-    }
-
-
-    public void checkRentedSpaces(){
-        if (rentedSpaces.isEmpty()) {
-            System.out.println(getFirstName() + " " + getLastName() + " " + "nie wynajmuje żadnych pomieszczen.");
-        } else {
-            System.out.println(getFirstName() + " " + getLastName() + " " + "wynajmuje nastepujace pomieszcznia:");
-            rentedSpaces.stream()
-                    .map(space -> "Pomieszczenie ID: " + space.getId())
-                    .forEach(s -> System.out.println(s));
-        }
-    }
     public void displayInfo() {
         System.out.println("Imię: " + getFirstName());
         System.out.println("Nazwisko: " + getLastName());
@@ -169,6 +118,7 @@ public class Person {
     public void setId(int id) {
         this.id = id;
     }
+
 
     @Override
     public String toString() {

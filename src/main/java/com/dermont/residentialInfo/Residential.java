@@ -1,7 +1,11 @@
 package com.dermont.residentialInfo;
 
+import com.dermont.exceptions.ProblematicTenantException;
 import com.dermont.personInfo.Person;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,12 +13,59 @@ import java.util.stream.Collectors;
 public class Residential {
     private String residentialName;
     private List<Block> blocks;
-    private List<Person> tenants = new ArrayList<>(); //TODO czy to potrzebne? Dwie drogi dojscia, lista albo na biezaco na podstawie housow budowanie takiej listy
+    private List<Person> tenants = new ArrayList<>();
 
 
     public Residential(String residentialName, List<Block> blocks) {
         this.residentialName = residentialName;
         this.blocks = blocks;
+    }
+    public long checkHowManySpacesPersonRentOn(Person person) {/// przyjmuje ze nie chodzi o mainTenant tylko ogolnie o lokatora
+        return getBlocks().stream()
+                .flatMap(block -> block.getSpaces().stream())
+                .filter(space -> space.getTenants().contains(person))
+                .count();
+    }
+
+    public long checkHowManyDebbtPersonHaveOn(Person person) {
+        return person.getDebbtInfo().stream()
+                .filter(infoFile -> infoFile.getName().contains(getResidentialName()))
+                .count();
+    }
+    public void checkPersonRentalExpiration(Person person) {
+        person.getRentedSpaces().stream()
+                .filter(space -> space.isRentalExpired())
+                .forEach(space -> {
+                    String info = "Umowa zakonczenia najmu dobiegla konca dla pomieszczenia o ID: " + space.getId();
+                    File infoFile = new File("Debbt" + getResidentialName() + space.getId() + ".txt");
+                    try (PrintWriter writer = new PrintWriter(infoFile)) {
+                        writer.println(info);
+                        person.getDebbtInfo().add(infoFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
+    public void checkIfPersonIsResponsibleForRent(Person person) throws IllegalArgumentException, ProblematicTenantException {
+        if (checkHowManySpacesPersonRentOn(person) > 5) {
+            throw new IllegalArgumentException("Najemca wynajmuje za duzo pomieszczen na tym osiedlu");
+        }
+        if (checkHowManyDebbtPersonHaveOn(person) > 3) {
+            throw new ProblematicTenantException(person);
+        }
+
+    }
+
+
+    public void checkPersonRentedSpaces(Person person){
+        if (person.getRentedSpaces().isEmpty()) {
+            System.out.println(person.getFirstName() + " " + person.getLastName() + " " + "nie wynajmuje żadnych pomieszczen.");
+        } else {
+            System.out.println(person.getFirstName() + " " + person.getLastName() + " " + "wynajmuje nastepujace pomieszcznia:");
+            person.getRentedSpaces().stream()
+                    .map(space -> "Pomieszczenie ID: " + space.getId())
+                    .forEach(s -> System.out.println(s));
+        }
     }
 
     public Person findPersonByID(int id) {

@@ -32,7 +32,7 @@ public class Flat extends Space {
         System.out.print("Ilość lokatorow w mieszkaniu " + getId() + ": ");
         System.out.println(getTenants().size());
         System.out.println(getTenants().toString());
-        System.out.println("Glowny najemca" + getMainTenant());
+        System.out.println("Glowny najemca: " + getMainTenant());
     }
 
     @Override
