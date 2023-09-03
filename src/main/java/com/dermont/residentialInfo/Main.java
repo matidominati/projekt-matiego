@@ -19,12 +19,10 @@ public class Main {
     public static void main(String[] args) throws ProblematicTenantException, TooManyThingsException, ItemToWideException, ItemToHighException, ItemTooLongException, IOException {
         Scanner scannerMain = new Scanner(System.in);
         RentalService rentalService = new RentalService();
-        ResidentialFileWriter residentialFileWriter = new ResidentialFileWriter();
 
-
-        AreaSpace smallFlat = new AreaSpace(28);
-        AreaSpace mediumFlat = new AreaSpace(50);
-        AreaSpace largeFlat = new AreaSpace(85);
+        AreaSpace smallFlat = new AreaSpace(10,2,2.5);
+        AreaSpace mediumFlat = new AreaSpace(20,2, 2.5);
+        AreaSpace largeFlat = new AreaSpace(30,2,2.5);
         AreaSpace smallParkingSpace = new AreaSpace(5, 1.8, 2.5);
         AreaSpace mediumParkingSpace = new AreaSpace(8, 2.5, 2.5);
         AreaSpace largeParkingSpace = new AreaSpace(10, 3, 2.5);
