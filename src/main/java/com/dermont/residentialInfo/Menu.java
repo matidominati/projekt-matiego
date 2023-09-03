@@ -2,6 +2,8 @@ package com.dermont.residentialInfo;
 
 public class Menu {
 
+
+
     public void printTopMenu() {
         System.out.println("******************* MENU *******************");
         System.out.println("");
@@ -57,7 +59,7 @@ public class Menu {
 
 
     public void exitProgram() {
-        System.out.println("Zamykanie programu...");
+        System.out.println("Zapisano stan osiedla. Zamykanie programu...");
         System.exit(0);
 
     }

@@ -1,4 +1,4 @@
-//TODO brakuje: zapisywania stanu osiedla do pliku, ale sprawdzona poprawnosc zapisywania w pamieci podrecznej - dziala
+
 //TODO brakuje: dodawania/usuwania niektorych przedmiotow -> metody są napiasne, ale jeszcze nie zaimplementowane w scannera. Na sucho dzialaja (zakomentowane 102-117)
 
 
@@ -10,14 +10,17 @@ import com.dermont.personInfo.Person;
 import com.dermont.storedItems.CityVehicle;
 import com.dermont.storedItems.Items;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws ProblematicTenantException, TooManyThingsException, ItemToWideException, ItemToHighException, ItemTooLongException {
+    public static void main(String[] args) throws ProblematicTenantException, TooManyThingsException, ItemToWideException, ItemToHighException, ItemTooLongException, IOException {
         Scanner scannerMain = new Scanner(System.in);
         RentalService rentalService = new RentalService();
+        ResidentialFileWriter residentialFileWriter = new ResidentialFileWriter();
+
 
         AreaSpace smallFlat = new AreaSpace(28);
         AreaSpace mediumFlat = new AreaSpace(50);

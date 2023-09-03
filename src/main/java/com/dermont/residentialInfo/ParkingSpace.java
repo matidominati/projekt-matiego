@@ -126,6 +126,7 @@ public class ParkingSpace extends Room {
         return storedItems;
     }
 
+
     public void setStoredItems(List<Items> storedItems) {
         this.storedItems = storedItems;
     }

@@ -25,6 +25,7 @@ public abstract class Space {
     private List<Person> tenants = new ArrayList<>();
 
 
+
 //    public Space(AreaSpace dimensions, String prefix) {
 //        this.dimensions = new AreaSpace(dimensions.getCapacity());
 //        if (prefix.equals("F")) {
@@ -132,6 +133,8 @@ public abstract class Space {
     public static void setParkingIdCounter(int parkingIdCounter) {
         Space.parkingIdCounter = parkingIdCounter;
     }
+
+
 
 
     @Override

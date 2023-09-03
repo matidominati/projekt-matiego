@@ -6,6 +6,7 @@ import com.dermont.personInfo.Address;
 import com.dermont.personInfo.Person;
 import com.dermont.storedItems.*;
 
+import java.io.IOException;
 import java.sql.SQLOutput;
 import java.util.Scanner;
 
@@ -14,6 +15,7 @@ public class RentalService {
     Scanner scannerInt = new Scanner(System.in);
     Scanner scannerString = new Scanner(System.in);
     Scanner scannerItem = new Scanner(System.in);
+    ResidentialFileWriter residentialFileWriter = new ResidentialFileWriter();
 
     public void displayAvaiablePerson(Residential residential) {
         System.out.println("Dostepne osoby: ");
@@ -23,7 +25,7 @@ public class RentalService {
         });
     }
 
-    public Person displayListOfUsers(Residential residential, Scanner scannerInt) {
+    public Person displayListOfUsers(Residential residential, Scanner scannerInt) throws IOException {
         menu.printTopMenu();
         displayAvaiablePerson(residential);
         menu.printExitMenu();
@@ -34,6 +36,7 @@ public class RentalService {
             System.out.println("Wybierz osobe (podaj ID) lub zamknij program: ");
             int selectedPersonID = scannerInt.nextInt();
             if (selectedPersonID == 0) {
+                residentialFileWriter.writeResidentialToFile(residential, "stan osiedla_" + residential.getResidentialName());
                 menu.exitProgram();
                 return null;
             } else {
@@ -49,10 +52,11 @@ public class RentalService {
         return selectedPerson;
     }
 
-    public void chooseWhatToDisplayElse(Person selectedPerson, Residential residential) throws ProblematicTenantException, ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException {
+    public void chooseWhatToDisplayElse(Person selectedPerson, Residential residential) throws ProblematicTenantException, ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException, IOException {
         int reverseSelectionOption;
         reverseSelectionOption = scannerInt.nextInt();
         if (reverseSelectionOption == 0) {
+            residentialFileWriter.writeResidentialToFile(residential, "stan osiedla_" + residential.getResidentialName());
             menu.exitProgram();
         } else if (reverseSelectionOption == 9) {
             menu.printPersonOptionMenu();
@@ -69,11 +73,12 @@ public class RentalService {
         }
     }
 
-    public void chooseWhatToDisplayMenuAfterPersonID(Person selectedPerson, Residential residential, Scanner scannerInt) throws ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException, ProblematicTenantException {
+    public void chooseWhatToDisplayMenuAfterPersonID(Person selectedPerson, Residential residential, Scanner scannerInt) throws ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException, ProblematicTenantException, IOException {
         int selectedOption;
         selectedOption = scannerInt.nextInt();
         switch (selectedOption) {
             case 0:
+                residentialFileWriter.writeResidentialToFile(residential, "stan osiedla_" + residential.getResidentialName());
                 menu.exitProgram();
                 break;
             case 1:
@@ -109,7 +114,7 @@ public class RentalService {
         }
     }
 
-    public void handleUserMenu(Person selectedPerson, Residential residential) throws ProblematicTenantException, ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException {
+    public void handleUserMenu(Person selectedPerson, Residential residential) throws ProblematicTenantException, ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException, IOException {
         if (residential.checkHowManyDebbtPersonHaveOn(selectedPerson) > 3) {
             System.out.println("UWAGA! WYBRANA OSOBA POSIADA ZALEGLE NAJMY!");
         }
@@ -166,7 +171,7 @@ public class RentalService {
         }
     }
 
-    public void checkTypeOfSpaceToAddSomething(Person selectedPerson, Residential residential) throws ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException {
+    public void checkTypeOfSpaceToAddSomething(Person selectedPerson, Residential residential) throws ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException, IOException {
         if(selectedPerson.getRentedSpaces().size()>0) {
 
 
@@ -186,6 +191,7 @@ public class RentalService {
                     int innerOption = scannerInt.nextInt();
                     switch (innerOption) {
                         case 0:
+                            residentialFileWriter.writeResidentialToFile(residential, "stan osiedla_" + residential.getResidentialName());
                             continueModifying = false;
                             menu.exitProgram();
                             break;
@@ -267,13 +273,14 @@ public class RentalService {
     }
 
 
-    public void personInfo(Person selectedPerson, Residential residential, Scanner scannerInt) throws ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException, ProblematicTenantException {
+    public void personInfo(Person selectedPerson, Residential residential, Scanner scannerInt) throws ItemToWideException, TooManyThingsException, ItemToHighException, ItemTooLongException, ProblematicTenantException, IOException {
         menu.printPersonInfoMenu();
         menu.reverseOrExit();
         int selectedOption;
         selectedOption = scannerInt.nextInt();
         switch (selectedOption) {
             case 0:
+                residentialFileWriter.writeResidentialToFile(residential, "stan osiedla_" + residential.getResidentialName());
                 menu.exitProgram();
                 break;
             case 1:

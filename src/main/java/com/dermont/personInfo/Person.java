@@ -26,6 +26,7 @@ public class Person {
     }
 
     public void displayInfo() {
+
         System.out.println("Imię: " + getFirstName());
         System.out.println("Nazwisko: " + getLastName());
         System.out.println("Numer PESEL: " + getPesel());
@@ -35,8 +36,20 @@ public class Person {
         System.out.println("   numer mieszkania / numer domu: " + address.getFlatNumber() + " / " + address.getHouseNumber());
         System.out.println("   kod pocztowy: " + address.getPostcode());
         System.out.println("   miasto: " + address.getCity());
+    }
 
-
+    public String displayInfoAsString() {
+        StringBuilder info = new StringBuilder();
+        info.append("Imię: ").append(getFirstName()).append("\n");
+        info.append("Nazwisko: ").append(getLastName()).append("\n");
+        info.append("Numer PESEL: ").append(getPesel()).append("\n");
+        info.append("Data urodzenia: ").append(getDateOfBirth()).append("\n");
+        info.append("Adres zamieszkania:\n");
+        info.append("   ulica: ").append(address.getStreet()).append("\n");
+        info.append("   numer mieszkania / numer domu: ").append(address.getFlatNumber()).append(" / ").append(address.getHouseNumber()).append("\n");
+        info.append("   kod pocztowy: ").append(address.getPostcode()).append("\n");
+        info.append("   miasto: ").append(address.getCity()).append("\n");
+        return info.toString();
     }
 
     public void addRentedRoom(Room room) {
@@ -123,8 +136,8 @@ public class Person {
     @Override
     public String toString() {
         return
-                "Imie: " + firstName  +
-                ", Nazwisko: " + lastName +
-                ", PESEL: " + pesel  ;
+                "Imie: " + firstName +
+                        ", Nazwisko: " + lastName +
+                        ", PESEL: " + pesel;
     }
 }
