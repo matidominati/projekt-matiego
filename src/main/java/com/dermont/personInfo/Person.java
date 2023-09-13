@@ -8,15 +8,17 @@ import java.util.List;
 
 
 public class Person {
-    private java.lang.String firstName;
-    private java.lang.String lastName;
-    private java.lang.String pesel;
-    private java.lang.String dateOfBirth;
+    private static int idCounter = 1;
+    private int id;
+    private String firstName;
+    private String lastName;
+    private String pesel;
+    private String dateOfBirth;
     private Address address;
-    private List<Room> rentedRooms = new ArrayList<>();
+    private List<Space> rentedSpaces = new ArrayList<>();
     private List<File> DebbtInfo = new ArrayList<>();
 
-    public Person(java.lang.String firstName, java.lang.String lastName, java.lang.String pesel, java.lang.String dateOfBirth, Address address) {
+    public Person(String firstName, String lastName, String pesel, String dateOfBirth, Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.pesel = pesel;
@@ -52,12 +54,8 @@ public class Person {
         return info.toString();
     }
 
-    public void addRentedRoom(Room room) {
-        rentedRooms.add(room);
-    }
-
-    public void removeRentedRoom(Room room) {
-        rentedRooms.remove(room);
+    public void removeRentedRoom(Space room) {
+        rentedSpaces.remove(room);
     }
 
     public java.lang.String getFirstName() {
@@ -100,12 +98,12 @@ public class Person {
         this.address = address;
     }
 
-    public List<Room> getRentedRooms() {
-        return rentedRooms;
+    public List<Space> getRentedSpaces() {
+        return rentedSpaces;
     }
 
-    public void setRentedRooms(List<Room> rentedRooms) {
-        this.rentedRooms = rentedRooms;
+    public void setRentedSpaces(List<Space> rentedSpaces) {
+        this.rentedSpaces = rentedSpaces;
     }
 
     public List<File> getDebbtInfo() {

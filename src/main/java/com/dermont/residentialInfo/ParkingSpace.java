@@ -11,8 +11,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParkingSpace extends Room {
-    private List<Object> storedItems = new ArrayList<>();
+public class ParkingSpace extends Space {
+    private List<Items> storedItems = new ArrayList<>();
 
     public ParkingSpace(AreaSpace dimensions) {
         super(dimensions, "P");

@@ -16,9 +16,7 @@ public abstract class Space {
     private static int flatIdCounter = 1;
     private static int parkingIdCounter = 1;
     private String id;
-    private UsableAreaSpace dimensions;
-    private static int ID = 1;
-    private int IDNumber;
+    private AreaSpace dimensions;
     private LocalDate rentalStartDate;
     private LocalDate rentalEndDate;
     private Person mainTenant;

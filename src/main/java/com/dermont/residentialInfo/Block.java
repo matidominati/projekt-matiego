@@ -7,9 +7,9 @@ public class Block {
     private int blockNumber;
     private List<Space> spaces;
 
-    public House(int houseNumber, List<Room> rooms) {
-        this.houseNumber = houseNumber;
-        this.rooms = rooms;
+    public Block(int blockNumber, List<Space> spaces) {
+        this.blockNumber = blockNumber;
+        this.spaces = spaces;
     }
 
     public int getBlockNumber() {
